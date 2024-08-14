@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ShowsController;
+use App\Http\Controllers\SeriesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +15,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/series');
 });
 
-Route::get('/shows', [ShowsController::class, 'index']);
-Route::get('/shows/create', [ShowsController::class, 'create']);
+Route::resource('/series', SeriesController::class)
+->except(['show']);
+
+// SAME AS =>
+// Route::controller(SeriesController::class)->group(function() {
+//     Route::get('/series', 'index')->name('series.index');
+//     Route::get('/series/create', 'create')->name('series.create');
+//     Route::post('/series/save', 'store')->name('series.store');
+//     Route::delete('series/destroy/{serie}', 'destroy')->name('series.destroy');
+//     Route::post('series/update/{serie}', 'update')->name('series.edit');
+// });

@@ -1,9 +1,0 @@
-<x-layout title="Séries">
-    <a href="/shows/create" class="btn btn-dark mb-2">Adicionar</a>
-
-    <ul class="list-group">
-        @foreach ($shows as $show)
-            <li class="list-group-item">{{ $show }}</li>
-        @endforeach
-    </ul>
-</x-layout>
