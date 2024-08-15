@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Serie;
+use App\Models\Episode;
+use App\Models\Season;
+use App\Models\Series;
 use Illuminate\Http\Request;
 
 class SeriesController extends Controller
 {
     public function index(Request $request) 
     {
-        $series = Serie::all();
-        // $series = Serie::query()->orderBy('name', 'desc')->get(); =>
+        $series = Series::all();
+        // $series = Series::query()->orderBy('name', 'desc')->get(); =>
         // => returns a more specific query, sorted in ascending alphabetical order 
 
         $successMessage = $request->session()->get('message.success');
@@ -29,26 +31,46 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-        $serie = Serie::create($request->all()); // MASS ASSIGNMENT
+        $series = Series::create($request->all()); // MASS ASSIGNMENT
         // SAME AS
         // $seriesName = $request->input('name'); // OR => $seriesName = $request->name;
-        // $serie = new Serie();
+        // $serie = new Series();
         // $serie->name = $seriesName;
         // $serie->save();
 
         // FLASH MESSAGE
         // $request->session()->flash('message.success', "Series '{$serie->name}' added successfully!");
+
+        $seasons = [];
+        for ($i = 1; $i <= $request->seasonsQty; $i++) { 
+            $seasons[] = [
+                'series_id' => $series->id,
+                'number' => $i,
+            ];
+        }
+        Season::insert($seasons);
+
+        $episodes = [];
+        foreach ($series->seasons as $season) {
+            for ($j = 1; $j <= $request->episodesPerSeason; $j++) {
+                $episodes[] = [
+                    'season_id' => $season->id,
+                    'number' => $j,
+                ];
+            } 
+        }
+        Episode::insert($episodes);
       
         return redirect()->route('series.index')
-            ->with('message.success', "Series '{$serie->name}' added successfully!");
+            ->with('message.success', "Series '{$series->name}' added successfully!");
         // OR => return to_route('series.index'); Laravel ^9
         // OR => return redirect('/series');
     }
 
-    public function destroy(Serie $series, Request $request)
+    public function destroy(Series $series, Request $request)
     {
-        //$serie = Serie::find($series);
-        //Serie::destroy($request->serie);
+        //$serie = Series::find($series);
+        //Series::destroy($request->serie);
 
         $series->delete();
 
@@ -64,12 +86,12 @@ class SeriesController extends Controller
         // return redirect(route('series.index'))->with('message.success', "Series '{$series->name}' removed successfully!");
     }
 
-    public function edit(Serie $series)
+    public function edit(Series $series)
     {
         return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Serie $series, SeriesFormRequest $request)
+    public function update(Series $series, SeriesFormRequest $request)
     {
         $series->fill($request->all());
         // OR => $series->name = $request->name;
