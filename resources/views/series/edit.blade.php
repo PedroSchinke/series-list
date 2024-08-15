@@ -1,3 +1,44 @@
-<x-layout title="Edit series '{{ $serie->name }}'">
-    <x-series.form :action="route('series.update', $serie->id)" :name="$serie->name" :update="true"/>
+<x-layout title="Edit series '{!! $serie->name !!}'">
+    <form action="{{ route('series.update', $serie->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+    
+        <div class="row mb-3">
+            <div class="col-6">
+                <label for="name" class="form-label">Name:</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    class="form-control"
+                    value="{{ $serie->name }}"
+                    autofocus
+                >
+            </div>
+
+            <div class="col-">
+                <label for="seasonsQty" class="form-label">Number of seasons:</label>
+                <input 
+                    type="text" 
+                    id="seasonsQty" 
+                    name="seasonsQty" 
+                    class="form-control"
+                    value="{{ $serie->seasonsQty }}"
+                >
+            </div>
+
+            <div class="col-3">
+                <label for="episodesPerSeason" class="form-label">Episodes per season:</label>
+                <input 
+                    type="text" 
+                    id="episodesPerSeason" 
+                    name="episodesPerSeason" 
+                    class="form-control"
+                    value="{{ $serie->episodesPerSeason }}"
+                >
+            </div>
+        </div>
+    
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </form>
 </x-layout>
