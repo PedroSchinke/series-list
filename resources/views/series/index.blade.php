@@ -8,19 +8,21 @@
     @endisset
 
     <ul class="list-group">
-        @foreach ($series as $serie)
+        @foreach ($seriesArray as $series)
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ $serie->name }}
+                <a href="{{ route('seasons.index', $series->id) }}">
+                    {{ $series->name }}
+                </a>
 
                 <div class="d-flex gap-2">
                     <a 
-                        href="{{ route('series.edit', $serie->id) }}"
+                        href="{{ route('series.edit', $series->id) }}"
                         class="btn btn-primary btn-sm"
                     >
                         Edit
                     </a>
         
-                    <form action="{{ route('series.destroy', $serie->id) }}" method="POST">
+                    <form action="{{ route('series.destroy', $series->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger btn-sm">
