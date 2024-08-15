@@ -1,5 +1,5 @@
-<x-layout title="Séries">
-    <a href="{{ route('series.create') }}" class="btn btn-dark mb-2">Adicionar</a>
+<x-layout title="Series">
+    <a href="{{ route('series.create') }}" class="btn btn-dark mb-2">Add</a>
 
     @isset($successMessage)
         <div class="alert alert-success">
@@ -17,7 +17,7 @@
                         href="{{ route('series.edit', $serie->id) }}"
                         class="btn btn-primary btn-sm"
                     >
-                        Editar
+                        Edit
                     </a>
         
                     <form action="{{ route('series.destroy', $serie->id) }}" method="POST">

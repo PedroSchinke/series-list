@@ -37,10 +37,10 @@ class SeriesController extends Controller
         // $serie->save();
 
         // FLASH MESSAGE
-        // $request->session()->flash('message.success', "Série '{$serie->name}' adicionada com sucesso!");
+        // $request->session()->flash('message.success', "Series '{$serie->name}' added successfully!");
       
         return redirect()->route('series.index')
-            ->with('message.success', "Série '{$serie->name}' adicionada com sucesso!");
+            ->with('message.success', "Series '{$serie->name}' added successfully!");
         // OR => return to_route('series.index'); Laravel ^9
         // OR => return redirect('/series');
     }
@@ -53,15 +53,15 @@ class SeriesController extends Controller
         $series->delete();
 
         // FLASH MESSAGE
-        // $request->session()->flash('message.success', "Série '{$serie->name}' removida com sucesso!");
-        // OR => $request->session()->put('message.success', 'Série removida com sucesso!'); NEEDS forget() in index() to flash message
+        // $request->session()->flash('message.success', "Series '{$serie->name}' removed successfully!");
+        // OR => $request->session()->put('message.success', "Series '{$serie->name}' removed successfully!"); NEEDS forget() in index() to flash message
 
         return redirect()->route('series.index')
-            ->with('message.success', "Série '{$series->name}' removida com sucesso!");
+            ->with('message.success', "Series '{$series->name}' removed successfully!");
         // OR => return to_route('series.index'); Laravel ^9
         // OR => return redirect('/series');
 
-        // return redirect(route('series.index'))->with('message.success', "Série '{$series->name}' removida com sucesso!");
+        // return redirect(route('series.index'))->with('message.success', "Series '{$series->name}' removed successfully!");
     }
 
     public function edit(Serie $series)
@@ -73,10 +73,10 @@ class SeriesController extends Controller
     {
         $series->fill($request->all());
         // OR => $series->name = $request->name;
-        
+
         $series->save();
 
         return redirect()->route('series.index')
-            ->with('message.success', "Série '{$series->name}' atualizada com sucesso!");
+            ->with('message.success', "Series '{$series->name}' updated successfully!");
     }
 }
