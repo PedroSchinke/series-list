@@ -1,5 +1,5 @@
-<x-layout title="Edit series '{!! $serie->name !!}'">
-    <form action="{{ route('series.update', $serie->id) }}" method="POST">
+<x-layout title="Edit series '{!! $series->name !!}'">
+    <form action="{{ route('series.update', $series->id) }}" method="POST">
         @csrf
         @method('PUT')
     
@@ -11,7 +11,7 @@
                     id="name" 
                     name="name" 
                     class="form-control"
-                    value="{{ $serie->name }}"
+                    value="{{ $series->name }}"
                     autofocus
                 >
             </div>
@@ -23,7 +23,7 @@
                     id="seasonsQty" 
                     name="seasonsQty" 
                     class="form-control"
-                    value="{{ $serie->seasonsQty }}"
+                    value="{{ $series->seasonsQty }}"
                 >
             </div>
 
@@ -34,7 +34,7 @@
                     id="episodesPerSeason" 
                     name="episodesPerSeason" 
                     class="form-control"
-                    value="{{ $serie->episodesPerSeason }}"
+                    value="{{ $series->episodesPerSeason }}"
                 >
             </div>
         </div>

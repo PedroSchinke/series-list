@@ -27,8 +27,8 @@ Route::resource('/series', SeriesController::class)
 //     Route::get('/series', 'index')->name('series.index');
 //     Route::get('/series/create', 'create')->name('series.create');
 //     Route::post('/series/save', 'store')->name('series.store');
-//     Route::delete('series/destroy/{serie}', 'destroy')->name('series.destroy');
-//     Route::post('series/update/{serie}', 'update')->name('series.edit');
+//     Route::delete('series/destroy/{series}', 'destroy')->name('series.destroy');
+//     Route::post('series/update/{series}', 'update')->name('series.edit');
 // });
 
 Route::get('series/{series}/seasons', [SeasonsController::class, 'index'])->name('seasons.index');
