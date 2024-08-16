@@ -1,7 +1,7 @@
 <x-layout title="Edit series '{!! $series->name !!}'">
     <form action="{{ route('series.update', $series->id) }}" method="POST">
         @csrf
-        @method('PUT')
+        @method('PATCH')
     
         <div class="row mb-3">
             <div class="col-6">
