@@ -14,5 +14,5 @@
             </li>
         @endforeach
     </ul>
-    
+
 </x-layout> 
