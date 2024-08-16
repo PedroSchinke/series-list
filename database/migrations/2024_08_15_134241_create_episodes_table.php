@@ -16,6 +16,7 @@ class CreateEpisodesTable extends Migration
         Schema::create('episodes', function (Blueprint $table) {
             $table->id();
             $table-> unsignedTinyInteger('number');
+            $table->boolean('watched')->default(false);
             $table->foreignId('season_id')->constrained()->onDelete('cascade');
         });
     }
