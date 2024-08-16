@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Season;
+use App\Repositories\EpisodesRepository;
 use Illuminate\Http\Request;
 
 class EpisodesController extends Controller
 {
+    private EpisodesRepository $repository;
+
+    public function __construct(EpisodesRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function index(Season $season)
     {
         $episodes = $season->episodes;
@@ -17,12 +25,14 @@ class EpisodesController extends Controller
 
     public function update(Season $season, Request $request)
     {
-        $episodes = $season->episodes()->whereIn('id', $request->episodes)->get();
+        $this->repository->update($request, $season->id);
 
-        foreach ($episodes as $episode) {
-            $episode->watched = true;
-            $episode->save();
-        }
+        // LESS PERFORMANT OPTION
+        // $episodes = $season->episodes()->whereIn('id', $request->episodes)->get();
+        // foreach ($episodes as $episode) {
+        //     $episode->watched = true;
+        //     $episode->save();
+        // }
 
         return redirect()->route('seasons.index', ['series' => $season->series_id])
             ->with('message.success', "Episodes marked as watched successfully!");
