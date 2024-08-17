@@ -8,6 +8,14 @@
     <script src="{{ mix('js/app.js') }}"></script>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ route('series.index') }}">Home</a>
+    
+            <a href="{{ route('logout') }}">Logout</a>
+        </div>
+    </nav>
+
     <div class="container">
         <h1 class="mt-4">{{ $title }}</h1>
 
