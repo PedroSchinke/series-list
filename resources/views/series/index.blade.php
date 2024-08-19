@@ -1,5 +1,7 @@
 <x-layout title="Series">
+    @auth
     <a href="{{ route('series.create') }}" class="btn btn-dark mb-2">Add</a>
+    @endauth
 
     @isset($successMessage)
         <div class="alert alert-success">
@@ -14,6 +16,7 @@
                     {{ $series->name }}
                 </a>
 
+                @auth
                 <div class="d-flex gap-2">
                     <a 
                         href="{{ route('series.edit', $series->id) }}"
@@ -30,6 +33,7 @@
                         </button>
                     </form>
                 </div>
+                @endauth
 
             </li>
         @endforeach

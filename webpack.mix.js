@@ -13,8 +13,13 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
  */
 
 mix
-    .sass('resources/css/app.scss', 'public/css')
+    .sass('resources/css/styles.scss', 'public/css')
     .js('resources/js/app.js', 'public/js')
     .webpackConfig({
         plugins: [new LiveReloadPlugin()]
-    });
+    })
+    .postCss('resources/css/app.css', 'public/css', [
+        require('postcss-import'),
+        require('tailwindcss'),
+        require('autoprefixer')
+    ]);
