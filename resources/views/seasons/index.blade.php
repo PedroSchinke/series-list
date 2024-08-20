@@ -1,5 +1,12 @@
 <x-layout title="Seasons of {!! $series->name !!}" :successMessage="$successMessage">
 
+    <img 
+        src="{{ asset('storage/' . $series->cover) }}" 
+        alt="Series cover"
+        class="img-fluid"
+        style="height: 250px"
+    >
+
     <ul class="list-group">
         @foreach ($seasons as $season)
             <li class="list-group-item d-flex justify-content-between align-items-center">
