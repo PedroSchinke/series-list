@@ -22,7 +22,7 @@ class SeriesCreated extends Mailable
      */
     public function __construct(string $seriesName, int $seriesId, int $seasonsQty, int $episodesPerSeason)
     {
-        $this->seriesName =$seriesName;
+        $this->seriesName = $seriesName;
         $this->seriesId = $seriesId;
         $this->seasonsQty = $seasonsQty;
         $this->episodesPerSeason = $episodesPerSeason;
