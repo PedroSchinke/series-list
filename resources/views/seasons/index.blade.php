@@ -1,10 +1,4 @@
-<x-layout title="Seasons of {!! $series->name !!}">
-
-    @isset($successMessage)
-        <div class="alert alert-success">
-            {{ $successMessage }}
-        </div>
-    @endisset
+<x-layout title="Seasons of {!! $series->name !!}" :successMessage="$successMessage">
 
     <ul class="list-group">
         @foreach ($seasons as $season)
