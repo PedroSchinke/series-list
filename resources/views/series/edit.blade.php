@@ -1,7 +1,7 @@
 <x-layout title="Edit series '{!! $series->name !!}'">
     <form action="{{ route('series.update', $series->id) }}" method="POST">
         @csrf
-        @method('PATCH')
+        @method('PUT')
     
         <div class="row mb-3">
             <div class="col-6">
@@ -23,7 +23,7 @@
                     id="seasonsQty" 
                     name="seasonsQty" 
                     class="form-control"
-                    value="{{ $series->seasonsQty }}"
+                    value="{{ $series->seasons->count() }}"
                 >
             </div>
 
@@ -34,7 +34,7 @@
                     id="episodesPerSeason" 
                     name="episodesPerSeason" 
                     class="form-control"
-                    value="{{ $series->episodesPerSeason }}"
+                    value="{{ $series->seasons->flatMap->episodes->count() / $series->seasons->count() }}"
                 >
             </div>
         </div>
