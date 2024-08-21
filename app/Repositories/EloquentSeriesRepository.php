@@ -14,7 +14,7 @@ class EloquentSeriesRepository implements SeriesRepository
     {
         return DB::transaction(function () use ($request) {
             $series = Series::create([
-                'name' => $request->name,
+                'name' => $request->input('name'),
                 'cover' => $request->coverPath
             ]); 
 
@@ -32,7 +32,7 @@ class EloquentSeriesRepository implements SeriesRepository
             // $request->session()->flash('message.success', "Series '{$series->name}' added successfully!");
 
             $seasons = [];
-            for ($i = 1; $i <= $request->seasonsQty; $i++) { 
+            for ($i = 1; $i <= $request->input('seasonsQty'); $i++) { 
                 $seasons[] = [
                     'series_id' => $series->id,
                     'number' => $i,
@@ -42,7 +42,7 @@ class EloquentSeriesRepository implements SeriesRepository
 
             $episodes = [];
             foreach ($series->seasons as $season) {
-                for ($j = 1; $j <= $request->episodesPerSeason; $j++) {
+                for ($j = 1; $j <= $request->input('episodesPerSeason'); $j++) {
                     $episodes[] = [
                         'season_id' => $season->id,
                         'number' => $j,

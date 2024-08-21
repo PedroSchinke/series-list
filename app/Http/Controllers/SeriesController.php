@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Events\SeriesCreated as EventSeriesCreated;
-use App\Events\SeriesDestroyed;
 use App\Http\Requests\SeriesFormRequest;
 use App\Models\Series;
 use App\Repositories\SeriesRepository;
@@ -43,10 +42,10 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-        $coverPath = $request->hasFile('cover')
+        $cover = $request->hasFile('cover')
             ? $request->file('cover')->store('series_cover', 'public')
             : null;
-        $request->coverPath = $coverPath;
+        $request->merge(['coverPath' => $cover]);
 
         $series = $this->repository->add($request);
 
@@ -54,8 +53,8 @@ class SeriesController extends Controller
         EventSeriesCreated::dispatch(
             $series->name,
             $series->id,
-            $request->seasonsQty,
-            $request->episodesPerSeason
+            $request->input('seasonsQty'),
+            $request->input('episodesPerSeason'),
         );
 
         return redirect()->route('series.index')
@@ -69,9 +68,6 @@ class SeriesController extends Controller
         //$series = Series::find($series);
         //Series::destroy($request->series);
         $series->delete();
-
-        // Calls the SeriesDestroyed event
-        SeriesDestroyed::dispatch($series->cover);
 
         // FLASH MESSAGE
         // $request->session()->flash('message.success', "Series '{$series->name}' removed successfully!");

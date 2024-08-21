@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use App\Events\SeriesCreated;
-use App\Events\SeriesDestroyed;
-use App\Listeners\DeleteSeriesCoverFile;
 use App\Listeners\EmailUserAboutSeriesCreated;
 use App\Listeners\LogSeriesCreated;
+use App\Models\Series;
+use App\Observers\SeriesObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -26,9 +26,6 @@ class EventServiceProvider extends ServiceProvider
         SeriesCreated::class => [
             EmailUserAboutSeriesCreated::class,
             LogSeriesCreated::class
-        ],
-        SeriesDestroyed::class => [
-            DeleteSeriesCoverFile::class
         ]
     ];
 
@@ -39,6 +36,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Series::observe(SeriesObserver::class);
     }
 }
