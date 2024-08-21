@@ -29,6 +29,8 @@ class SeriesFormRequest extends FormRequest
     {
         return [
             'name' => ['required', 'min:3'],
+            'seasonsQty' => ['required', 'integer'],
+            'episodesPerSeason' => ['required', 'integer']
         ];
     }
 
@@ -36,7 +38,11 @@ class SeriesFormRequest extends FormRequest
     {
         return [
             'name.required' => "The field 'name' is required",
-            'name.min' => "The field 'name' must have at least :min characters"
+            'name.min' => "The field 'name' must have at least :min characters",
+            'seasonsQty.required' => "The field 'number of seasons' is required",
+            'seasonsQty.integer' => "The field 'number of seasons' must be a number",
+            'episodesPerSeason.required' => "The field 'episodes per season' is required",
+            'episodesPerSeason.integer' => "The field 'episodes per season' must be a number",
         ];
     }
 }
