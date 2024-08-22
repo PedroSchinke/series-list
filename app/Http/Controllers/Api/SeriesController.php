@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SeriesFormRequest;
 use App\Models\Series;
 use App\Repositories\SeriesRepository;
+use Illuminate\Http\Request;
 
 class SeriesController extends Controller
 {
@@ -16,9 +17,14 @@ class SeriesController extends Controller
         $this->repository = $repository;
     }
     
-    public function index()
+    public function index(Request $request)
     {
-        return Series::all();
+        $query = Series::query();
+        if ($request->has('name')) {
+            $query->where('name', $request->name);
+        }
+
+        return $query->paginate(4);
     }
 
     public function store(SeriesFormRequest $request)
@@ -27,11 +33,18 @@ class SeriesController extends Controller
             ->json($this->repository->add($request), 201);
     }
 
-    public function show(int $series)
+    public function show(int $seriesId)
     {
-        $series = Series::whereId($series)
-            ->with('seasons.episodes')
-            ->first();
+        // $series = Series::whereId($seriesId)
+        //     ->with('seasons.episodes')
+        //     ->first();
+
+        $series = Series::with('seasons.episodes')->find($seriesId);
+
+        if ($series === null) {
+            return response()->json(['message' => 'Series not found'], 404);
+        }
+
         return $series;
     }
 
@@ -44,7 +57,9 @@ class SeriesController extends Controller
 
         // $series->update($request->all());
 
-        Series::where('id', $seriesId)->update($request->all());
+        Series::where('id', $seriesId)->update([
+            'name' => $request->input('name')
+        ]);
 
         return response()->noContent();
     }
