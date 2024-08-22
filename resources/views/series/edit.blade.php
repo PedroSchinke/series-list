@@ -34,7 +34,7 @@
                     id="episodesPerSeason" 
                     name="episodesPerSeason" 
                     class="form-control"
-                    value="{{ $series->seasons->flatMap->episodes->count() / $series->seasons->count() }}"
+                    value="{{ $series->episodes->count() / $series->seasons->count() }}"
                 >
             </div>
         </div>
