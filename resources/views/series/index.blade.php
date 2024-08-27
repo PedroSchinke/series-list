@@ -8,8 +8,8 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="d-flex gap-2 align-items-center">
                     <img 
-                        src="{{ asset('storage/' . $series->cover) }}" 
-                        alt="Series cover"
+                        src="{{ asset($series->cover) }}" 
+                        alt="{{ $series->name }} cover"
                         class="img-thumbnail"
                         style="width: 100px"
                     >

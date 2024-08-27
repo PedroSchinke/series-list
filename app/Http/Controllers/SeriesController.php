@@ -49,8 +49,12 @@ class SeriesController extends Controller
     {
         $cover = $request->hasFile('cover')
             ? $request->file('cover')->store('series_cover', 'public')
-            : null;
-        $request->merge(['coverPath' => $cover]);
+            : 'images/default_image.jpg';
+        if ($cover === 'images/default_image.jpg') {
+            $request->merge(['coverPath' => $cover]);
+        } else {
+            $request->merge(['coverPath' => 'storage/' . $cover]);
+        }
 
         $series = $this->repository->add($request);
 
