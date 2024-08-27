@@ -41,4 +41,9 @@
             </li>
         @endforeach
     </ul>
+
+    <div class="d-flex justify-content-center gap-4 pt-3 pb-3" style="width: 100%">
+        <a href="" class="btn btn-primary btn-sm">Previous</a>
+        <a href="" class="btn btn-primary btn-sm">Next</a>
+    </div>
 </x-layout>
