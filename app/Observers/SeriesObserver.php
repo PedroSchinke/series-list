@@ -59,6 +59,6 @@ class SeriesObserver
      */
     public function forceDeleted(Series $series)
     {
-        //
+        Storage::disk('public')->delete($series->cover);
     }
 }
