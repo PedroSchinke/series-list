@@ -1,4 +1,6 @@
 <x-layout title="New series">
+    <h1>New series</h1>
+
     <form 
         action="{{ route('series.store') }}" 
         method="POST"

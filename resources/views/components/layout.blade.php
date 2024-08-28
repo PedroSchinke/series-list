@@ -9,28 +9,37 @@
     <script src="{{ mix('js/app.js') }}"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('series.index') }}">Home</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a 
+                href="{{ route('series.index') }}" 
+                class="text-white text-decoration-none"
+            >
+                Home
+            </a>
     
             @auth
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button class="btn btn-link">
-                    Logout
-                </button>
-            </form>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button class="btn btn-link text-white text-decoration-none">
+                        Logout
+                    </button>
+                </form>
             @endauth
 
             @guest
-            <a href="{{ route('login') }}">Login</a>
+                <a 
+                    href="{{ route('login') }}" 
+                    class="text-white text-decoration-none"
+                >
+                    Login
+                </a>
             @endguest
         </div>
     </nav>
 
-    <div class="container">
-        <h1 class="mt-4">{{ $title }}</h1>
-
+    <div class="container mb-5 mt-3">
+        
         @isset($successMessage)
             <div class="alert alert-success">
                 {{ $successMessage }}

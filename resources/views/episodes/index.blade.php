@@ -1,4 +1,5 @@
 <x-layout title="Episodes of Season {!! $season->number !!} of {!! $series->name !!}">
+    <h1>Episodes of season {{ $season->number }} of {{ $series->name }}</h1>
 
     <form action="{{ route('episodes.update', ['season' => $season->id]) }}" method="POST">
         @csrf
