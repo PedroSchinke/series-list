@@ -37,7 +37,7 @@ class SeriesObserver
      */
     public function deleted(Series $series)
     {
-        Storage::disk('public')->delete($series->cover);
+        Storage::disk('public')->delete(str_replace('storage/', '', $series->cover));
     }
 
     /**
@@ -59,6 +59,6 @@ class SeriesObserver
      */
     public function forceDeleted(Series $series)
     {
-        Storage::disk('public')->delete($series->cover);
+        Storage::disk('public')->delete(str_replace('storage/', '', $series->cover));
     }
 }
