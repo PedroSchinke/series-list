@@ -25,17 +25,25 @@ class SeriesController extends Controller
 
     public function index(Request $request) 
     {
-        $series = Series::all();
+        $series = Series::query()->paginate(4);
         // $series = Series::query()->orderBy('name', 'desc')->get(); =>
-        // => returns a more specific query, sorted in ascending alphabetical order 
+        // => returns a more specific query, sorted in ascending alphabetical order
+
+        $nextPageUrl = $series->nextPageUrl();
+        $previousPageUrl = $series->previousPageUrl();
+        $lastPage = $series->lastPage();
 
         $successMessage = $request->session()->get('message.success');
 
         // $request->session()->forget('message.success');
 
         return view('series.index', [
+            'title' => 'Series',
             'seriesArray' => $series,
-            'successMessage' => $successMessage
+            'successMessage' => $successMessage,
+            'nextPageUrl' => $nextPageUrl,
+            'previousPageUrl' => $previousPageUrl,
+            'lastPage' => $lastPage
         ]);
         // OR => return view('series-list')->with('series', $series);
     }
@@ -92,7 +100,9 @@ class SeriesController extends Controller
 
     public function edit(Series $series)
     {
-        return view('series.edit')->with('series', $series);
+        return view('series.edit', [
+            'series' => $series
+        ]);
     }
 
     public function update(Series $series, SeriesFormRequest $request)

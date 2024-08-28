@@ -1,7 +1,12 @@
 <x-layout title="Series" :successMessage="$successMessage">
-    @auth
-    <a href="{{ route('series.create') }}" class="btn btn-dark mb-2">Add</a>
-    @endauth
+
+    <div class="d-flex align-items-center justify-content-between px-2">
+        <h1>Series</h1>
+
+        @auth
+        <a href="{{ route('series.create') }}" class="btn btn-dark">Add</a>
+        @endauth
+    </div>
 
     <ul class="list-group">
         @foreach ($seriesArray as $series)
@@ -42,8 +47,29 @@
         @endforeach
     </ul>
 
-    <div class="d-flex justify-content-center gap-4 pt-3 pb-3" style="width: 100%">
-        <a href="" class="btn btn-primary btn-sm">Previous</a>
-        <a href="" class="btn btn-primary btn-sm">Next</a>
+    <div class="d-flex justify-content-center align-items-center gap-4 pt-3 pb-3" style="width: 100%">
+        <a 
+            href="{{ $previousPageUrl }}" 
+            class="btn btn-primary btn-sm @if (!isset($previousPageUrl)) disabled @endif"
+        >
+            Previous
+        </a>
+
+        @for ($i = 1; $i <= $lastPage; $i++)
+            <a 
+                href="http://127.0.0.1:8000/series?page={{ $i }}"
+                class="text-decoration-none"
+            >
+                {{ $i }}
+            </a>
+        @endfor
+
+        <a 
+            href="{{ $nextPageUrl }}" 
+            class="btn btn-primary btn-sm @if (!isset($nextPageUrl)) disabled @endif"
+        >
+            Next
+        </a>
     </div>
+
 </x-layout>
