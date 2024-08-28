@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Events\SeriesCreated as EventSeriesCreated;
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Season;
 use App\Models\Series;
 use App\Repositories\SeriesRepository;
 use App\Services\SeriesManagementService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
 {
@@ -36,7 +34,7 @@ class SeriesController extends Controller
 
         $successMessage = $request->session()->get('message.success');
 
-        // $request->session()->forget('message.success');
+        // $request->session()->forget('message.success'); -> in case of $request->session->put()
 
         return view('series.index', [
             'title' => 'Series',
@@ -109,26 +107,7 @@ class SeriesController extends Controller
 
     public function update(Series $series, SeriesFormRequest $request)
     {
-        if ($series->name !== $request->input('name')) {
-            $series->fill($request->all())->save();
-            // OR => $series->name = $request->name;
-        }
-
-        DB::transaction(function () use ($series, $request) {
-            $seasonsCount = $series->seasons->count();
-            $episodesPerSeason = $series->episodes->count() / $series->seasons->count();
-    
-            if ($seasonsCount !== (int) $request->input('seasonsQty')) {
-                $this->seriesService->updateSeasonsQty($series, $request->input('seasonsQty'), $episodesPerSeason);
-            }
-
-            $seasons = Season::where('series_id', $series->id)->get();
-            $seasonsCount = $seasons->count();
-            
-            if ($series->episodes->count() / $seasonsCount !== (int) $request->input('episodesPerSeason')) {
-                $this->seriesService->updateEpisodesPerSeason($series, $seasons, $episodesPerSeason, $request->input('episodesPerSeason'));
-            }
-        });
+        $this->seriesService->updateSeries($series, $request);
 
         return redirect()->route('series.index')
             ->with('message.success', "Series '{$series->name}' updated successfully!");

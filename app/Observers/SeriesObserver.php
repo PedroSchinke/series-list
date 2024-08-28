@@ -18,6 +18,17 @@ class SeriesObserver
         //
     }
 
+    public function updating(Series $series)
+    {
+        if ($series->isDirty('cover')) {
+            $oldCoverPath = $series->getOriginal('cover');
+            
+            if (Storage::disk('public')->exists(str_replace('storage/', '', $oldCoverPath))) {
+                Storage::disk('public')->delete(str_replace('storage/', '', $oldCoverPath));
+            }
+        }
+    }
+
     /**
      * Handle the Series "updated" event.
      *
