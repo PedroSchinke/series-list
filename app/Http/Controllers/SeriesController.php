@@ -23,14 +23,7 @@ class SeriesController extends Controller
 
     public function index(Request $request) 
     {
-        $series = Series::query()->paginate(4);
-        // $series = Series::query()->orderBy('name', 'desc')->get(); =>
-        // => returns a more specific query, sorted in ascending alphabetical order
-
-        $nextPageUrl = $series->nextPageUrl();
-        $previousPageUrl = $series->previousPageUrl();
-        $lastPage = $series->lastPage();
-        $currentPage = $series->currentPage();
+        $series = $this->seriesService->getAllSeriesWithPagesData();
 
         $successMessage = $request->session()->get('message.success');
 
@@ -38,12 +31,12 @@ class SeriesController extends Controller
 
         return view('series.index', [
             'title' => 'Series',
-            'seriesArray' => $series,
+            'seriesArray' => $series['series'],
             'successMessage' => $successMessage,
-            'nextPageUrl' => $nextPageUrl,
-            'previousPageUrl' => $previousPageUrl,
-            'lastPage' => $lastPage,
-            'currentPage' => $currentPage
+            'nextPageUrl' => $series['nextPageUrl'],
+            'previousPageUrl' => $series['previousPageUrl'],
+            'lastPage' => $series['lastPage'],
+            'currentPage' => $series['currentPage']
         ]);
         // OR => return view('series-list')->with('series', $series);
     }
@@ -55,16 +48,7 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-        $cover = $request->hasFile('cover')
-            ? $request->file('cover')->store('series_cover', 'public')
-            : 'images/default_image.jpg';
-        if ($cover === 'images/default_image.jpg') {
-            $request->merge(['coverPath' => $cover]);
-        } else {
-            $request->merge(['coverPath' => 'storage/' . $cover]);
-        }
-
-        $series = $this->repository->add($request);
+        $series = $this->seriesService->storeSeries($request);
 
         // Calls the SeriesCreated event
         EventSeriesCreated::dispatch(

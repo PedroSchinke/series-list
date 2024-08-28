@@ -9,6 +9,7 @@ use App\Repositories\EpisodesRepository;
 use App\Repositories\SeasonsRepository;
 use App\Repositories\SeriesRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SeriesManagementService
@@ -26,6 +27,40 @@ class SeriesManagementService
         $this->seriesRepository = $seriesRepository;
         $this->seasonsRepository = $seasonsRepository;
         $this->episodesRepository = $episodesRepository;
+    }
+
+    public function getAllSeriesWithPagesData(): array
+    {
+        $series = $this->seriesRepository->getAll(4);
+
+        $nextPageUrl = $series->nextPageUrl();
+        $previousPageUrl = $series->previousPageUrl();
+        $lastPage = $series->lastPage();
+        $currentPage = $series->currentPage();
+
+        return [
+            'series' => $series,
+            'nextPageUrl' => $nextPageUrl,
+            'previousPageUrl' => $previousPageUrl,
+            'lastPage' => $lastPage,
+            'currentPage' => $currentPage 
+        ];
+    }
+
+    public function storeSeries(SeriesFormRequest $request): Series
+    {
+        $cover = $request->hasFile('cover')
+            ? $request->file('cover')->store('series_cover', 'public')
+            : 'images/default_image.jpg';
+        if ($cover === 'images/default_image.jpg') {
+            $request->merge(['coverPath' => $cover]);
+        } else {
+            $request->merge(['coverPath' => 'storage/' . $cover]);
+        }
+
+        $series = $this->seriesRepository->add($request);
+
+        return $series;
     }
 
     public function updateSeries(Series $series, SeriesFormRequest $request)
@@ -57,8 +92,8 @@ class SeriesManagementService
 
     public function handleSeasonsAndEpisodes(Series $series, SeriesFormRequest $request)
     {
-        $seasonsCount = $series->seasons->count();
-        $episodesPerSeason = $series->episodes->count() / $series->seasons->count();
+        $seasonsCount = $this->seriesRepository->getSeasonsCount($series);
+        $episodesPerSeason = $this->seriesRepository->getEpisodesPerSeason($series);
 
         if ($seasonsCount !== (int) $request->input('seasonsQty')) {
             $this->updateSeasonsQty($series, $request->input('seasonsQty'), $episodesPerSeason);

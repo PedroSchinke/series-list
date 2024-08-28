@@ -6,10 +6,32 @@ use App\Http\Requests\SeriesFormRequest;
 use App\Models\Episode;
 use App\Models\Season;
 use App\Models\Series;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class EloquentSeriesRepository implements SeriesRepository
 {
+    public function getAll(int $itemsPerPage): LengthAwarePaginator
+    {
+        $series = Series::query()->paginate($itemsPerPage);
+
+        return $series;
+    }
+
+    public function getSeasonsCount(Series $series): int
+    {
+        $seasons = $series->seasons->count();
+
+        return $seasons;
+    }
+
+    public function getEpisodesPerSeason(Series $series): int
+    {
+        $episodesPerSeason = $series->episodes->count() / $series->seasons->count();
+
+        return $episodesPerSeason;
+    }
+
     public function add(SeriesFormRequest $request): Series
     {
         return DB::transaction(function () use ($request) {
