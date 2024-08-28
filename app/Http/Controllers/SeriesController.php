@@ -32,6 +32,7 @@ class SeriesController extends Controller
         $nextPageUrl = $series->nextPageUrl();
         $previousPageUrl = $series->previousPageUrl();
         $lastPage = $series->lastPage();
+        $currentPage = $series->currentPage();
 
         $successMessage = $request->session()->get('message.success');
 
@@ -43,7 +44,8 @@ class SeriesController extends Controller
             'successMessage' => $successMessage,
             'nextPageUrl' => $nextPageUrl,
             'previousPageUrl' => $previousPageUrl,
-            'lastPage' => $lastPage
+            'lastPage' => $lastPage,
+            'currentPage' => $currentPage
         ]);
         // OR => return view('series-list')->with('series', $series);
     }

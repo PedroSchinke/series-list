@@ -58,7 +58,7 @@
         @for ($i = 1; $i <= $lastPage; $i++)
             <a 
                 href="http://127.0.0.1:8000/series?page={{ $i }}"
-                class="text-decoration-none"
+                class="text-decoration-none @if ($i === $currentPage) text-decoration-underline @endif"
             >
                 {{ $i }}
             </a>
