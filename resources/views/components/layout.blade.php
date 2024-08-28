@@ -13,7 +13,7 @@
         <div class="container">
             <a 
                 href="{{ route('series.index') }}" 
-                class="text-white text-decoration-none"
+                class="btn btn-link text-white text-decoration-none"
             >
                 Home
             </a>
@@ -30,7 +30,7 @@
             @guest
                 <a 
                     href="{{ route('login') }}" 
-                    class="text-white text-decoration-none"
+                    class="btn btn-link text-white text-decoration-none"
                 >
                     Login
                 </a>
