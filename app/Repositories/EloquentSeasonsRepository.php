@@ -20,6 +20,7 @@ class EloquentSeasonsRepository implements SeasonsRepository
             }
             Season::insert($seasonsToAdd);
     
+            // Gets last inserted seasons
             $newSeasons = Season::where('series_id', $seriesId)
                 ->whereBetween('number', [$seasonsQty + 1, $newSeasonsQty])
                 ->orderBy('number', 'asc')
