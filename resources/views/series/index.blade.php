@@ -47,7 +47,7 @@
         @endforeach
     </ul>
 
-    <div class="d-flex justify-content-center align-items-center gap-4 pt-3 pb-3" style="width: 100%">
+    <div class="d-flex justify-content-center align-items-center gap-3 pt-3 pb-3" style="width: 100%">
         <a 
             href="{{ $previousPageUrl }}" 
             class="btn btn-primary btn-sm @if (!isset($previousPageUrl)) disabled @endif"
@@ -55,14 +55,17 @@
             Previous
         </a>
 
-        @for ($i = 1; $i <= $lastPage; $i++)
-            <a 
-                href="http://127.0.0.1:8000/series?page={{ $i }}"
-                class="text-decoration-none @if ($i === $currentPage) text-decoration-underline @endif"
-            >
-                {{ $i }}
-            </a>
-        @endfor
+        <div class="d-flex gap-2">
+            @for ($i = 1; $i <= $lastPage; $i++)
+                <a 
+                    href="http://127.0.0.1:8000/series?page={{ $i }}"
+                    class="text-decoration-none"
+                    style="@if ($i !== $currentPage) color: #96B1B8; @endif"
+                >
+                    {{ $i }}
+                </a>
+            @endfor
+        </div>
 
         <a 
             href="{{ $nextPageUrl }}" 
