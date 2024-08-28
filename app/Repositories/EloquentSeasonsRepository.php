@@ -26,6 +26,7 @@ class EloquentSeasonsRepository implements SeasonsRepository
                 ->orderBy('number', 'asc')
                 ->get();
 
+            // Inserts episodes in last inserted seasons
             $episodes = [];
             foreach ($newSeasons as $season) {
                 for ($j = 1; $j <= $episodesPerSeason; $j++) {
