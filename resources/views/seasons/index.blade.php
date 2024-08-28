@@ -1,7 +1,8 @@
 <x-layout title="Seasons of {!! $series->name !!}" :successMessage="$successMessage">
+    <h1>Seasons of {{$series->name}}</h1>
 
     <img 
-        src="{{ asset('storage/' . $series->cover) }}" 
+        src="{{ asset($series->cover) }}" 
         alt="Series cover"
         class="img-fluid"
         style="height: 250px"
