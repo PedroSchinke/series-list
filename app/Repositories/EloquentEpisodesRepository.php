@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Episode;
 use App\Models\Series;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,8 +29,10 @@ class EloquentEpisodesRepository implements EpisodesRepository
         });
     }
 
-    public function increaseEpisodes(Series $series, Collection $seasons, int $episodesPerSeason, int $newEpisodesPerSeason)
+    public function increaseEpisodes(Series $series, int $episodesPerSeason, int $newEpisodesPerSeason)
     {
+        $seasons = $series->seasons()->get();
+
         $episodes = [];
         foreach ($seasons as $season) {
             for ($i = $episodesPerSeason + 1; $i <= $newEpisodesPerSeason; $i++) {
@@ -48,14 +49,14 @@ class EloquentEpisodesRepository implements EpisodesRepository
         ]);
     }
 
-    public function decreaseEpisodes(Series $series, Collection $seasons, int $episodesPerSeason, int $newEpisodesPerSeason)
+    public function decreaseEpisodes(Series $series, int $episodesPerSeason, int $newEpisodesPerSeason)
     {
         $episodesToDelete = [];
         for ($i = $episodesPerSeason; $i > $newEpisodesPerSeason; $i--) { 
             $episodesToDelete[] = $i;
         }
 
-        $seasonsIds = $seasons->pluck('id')->toArray();
+        $seasonsIds = $series->seasons->pluck('id')->toArray();
 
         Episode::whereIn('season_id', $seasonsIds)
             ->whereIn('number', $episodesToDelete)

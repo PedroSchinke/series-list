@@ -3,13 +3,10 @@
 namespace App\Services;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Season;
 use App\Models\Series;
 use App\Repositories\EpisodesRepository;
 use App\Repositories\SeasonsRepository;
 use App\Repositories\SeriesRepository;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SeriesManagementService
@@ -95,45 +92,38 @@ class SeriesManagementService
         if ($series->seasonsQty !== (int) $request->input('seasonsQty')) {
             $this->updateSeasonsQty($series, $request->input('seasonsQty'), $series->episodesPerSeason);
         }
-
-        $seasons = Season::where('series_id', $series->id)->get();
         
         if ($series->episodesPerSeason !== (int) $request->input('episodesPerSeason')) {
-            $this->updateEpisodesPerSeason($series, $seasons, $series->episodesPerSeason, $request->input('episodesPerSeason'));
+            $this->updateEpisodesPerSeason($series, $series->episodesPerSeason, $request->input('episodesPerSeason'));
         }
     }
 
     public function updateSeasonsQty(Series $series, int $newSeasonsQty, int $episodesPerSeason)
     {
-        $seasonsQty = $series->seasons->count();
-
-        if ($seasonsQty < $newSeasonsQty) {
+        if ($series->seasonsQty < $newSeasonsQty) {
             $this->seasonsRepository->increaseSeasons(
                 $series, 
-                $seasonsQty, 
                 $newSeasonsQty, 
                 $episodesPerSeason
             );
-        } elseif ($seasonsQty > $newSeasonsQty) {
-            $this->seasonsRepository->decreaseSeasons($series, $seasonsQty, $newSeasonsQty);
+        } elseif ($series->seasonsQty > $newSeasonsQty) {
+            $this->seasonsRepository->decreaseSeasons($series, $series->seasonsQty, $newSeasonsQty);
         } else {
             return null;
         }
     }
 
-    public function updateEpisodesPerSeason(Series $series, Collection $seasons, int $episodesPerSeason, int $newEpisodesPerSeason)
+    public function updateEpisodesPerSeason(Series $series, int $episodesPerSeason, int $newEpisodesPerSeason)
     {
         if ($episodesPerSeason < $newEpisodesPerSeason) {
             $this->episodesRepository->increaseEpisodes(
                 $series, 
-                $seasons, 
                 $episodesPerSeason, 
                 $newEpisodesPerSeason
             );
         } elseif ($episodesPerSeason > $newEpisodesPerSeason) {
             $this->episodesRepository->decreaseEpisodes(
                 $series, 
-                $seasons, 
                 $episodesPerSeason, 
                 $newEpisodesPerSeason
             );

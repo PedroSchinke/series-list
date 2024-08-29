@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class EloquentSeasonsRepository implements SeasonsRepository
 {
-    public function increaseSeasons(Series $series, int $seasonsQty, int $newSeasonsQty, int $episodesPerSeason)
+    public function increaseSeasons(Series $series, int $newSeasonsQty, int $episodesPerSeason)
     {
-        return DB::transaction(function () use ($series, $seasonsQty, $newSeasonsQty, $episodesPerSeason) {
+        return DB::transaction(function () use ($series, $newSeasonsQty, $episodesPerSeason) {
             $seasonsToAdd = [];
-            for ($i = $seasonsQty +1; $i <= $newSeasonsQty; $i++) { 
+            for ($i = $series->seasonsQty +1; $i <= $newSeasonsQty; $i++) { 
                 $seasonsToAdd[] = [
                     'series_id' => $series->id,
                     'number' => $i,
@@ -23,7 +23,7 @@ class EloquentSeasonsRepository implements SeasonsRepository
     
             // Gets last inserted seasons
             $newSeasons = Season::where('series_id', $series->id)
-                ->whereBetween('number', [$seasonsQty + 1, $newSeasonsQty])
+                ->whereBetween('number', [$series->seasonsQty + 1, $newSeasonsQty])
                 ->orderBy('number', 'asc')
                 ->get();
 
