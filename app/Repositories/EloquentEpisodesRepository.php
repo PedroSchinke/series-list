@@ -56,7 +56,7 @@ class EloquentEpisodesRepository implements EpisodesRepository
             $episodesToDelete[] = $i;
         }
 
-        $seasonsIds = $series->seasons->pluck('id')->toArray();
+        $seasonsIds = $series->seasons()->pluck('id')->toArray();
 
         Episode::whereIn('season_id', $seasonsIds)
             ->whereIn('number', $episodesToDelete)
