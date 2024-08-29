@@ -16,10 +16,10 @@
                         src="{{ asset($series->cover) }}" 
                         alt="{{ $series->name }} cover"
                         class="img-thumbnail"
-                        style="width: 100px"
+                        style="width: 100px; height: 65px"
                     >
     
-                    <a href="{{ route('seasons.index', $series->id) }}">
+                    <a href="{{ route('seasons.index', $series->id) }}" class="text-decoration-none">
                         {{ $series->name }}
                     </a>
                 </div>
