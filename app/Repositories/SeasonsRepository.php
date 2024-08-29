@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Models\Series;
+
 interface SeasonsRepository
 {
-    public function increaseSeasons(int $seriesId, int $seasonsQty, int $newSeasonsQty, int $episodesPerSeason);
-    public function decreaseSeasons(int $seriesId, int $seasonsQty, int $newSeasonsQty);
+    public function increaseSeasons(Series $series, int $seasonsQty, int $newSeasonsQty, int $episodesPerSeason);
+    public function decreaseSeasons(Series $series, int $seasonsQty, int $newSeasonsQty);
 }

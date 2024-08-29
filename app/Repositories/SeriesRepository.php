@@ -9,7 +9,5 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 interface SeriesRepository
 {
     public function getAll(int $itemsPerPage): LengthAwarePaginator;
-    public function getSeasonsCount(Series $series): int;
-    public function getEpisodesPerSeason(Series $series): int;
     public function add(SeriesFormRequest $request): Series;
 }

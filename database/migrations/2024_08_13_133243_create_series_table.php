@@ -17,6 +17,8 @@ class CreateSeriesTable extends Migration
             $table->id();
             $table->string('name', 128);
             $table->timestamps();
+            $table->unsignedTinyInteger('seasonsQty')->default(0);
+            $table->unsignedTinyInteger('episodesPerSeason')->default(0);
         });
     }
 

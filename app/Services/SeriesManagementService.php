@@ -92,18 +92,14 @@ class SeriesManagementService
 
     public function handleSeasonsAndEpisodes(Series $series, SeriesFormRequest $request)
     {
-        $seasonsCount = $this->seriesRepository->getSeasonsCount($series);
-        $episodesPerSeason = $this->seriesRepository->getEpisodesPerSeason($series);
-
-        if ($seasonsCount !== (int) $request->input('seasonsQty')) {
-            $this->updateSeasonsQty($series, $request->input('seasonsQty'), $episodesPerSeason);
+        if ($series->seasonsQty !== (int) $request->input('seasonsQty')) {
+            $this->updateSeasonsQty($series, $request->input('seasonsQty'), $series->episodesPerSeason);
         }
 
         $seasons = Season::where('series_id', $series->id)->get();
-        $seasonsCount = $seasons->count();
         
-        if ($series->episodes->count() / $seasonsCount !== (int) $request->input('episodesPerSeason')) {
-            $this->updateEpisodesPerSeason($series, $seasons, $episodesPerSeason, $request->input('episodesPerSeason'));
+        if ($series->episodesPerSeason !== (int) $request->input('episodesPerSeason')) {
+            $this->updateEpisodesPerSeason($series, $seasons, $series->episodesPerSeason, $request->input('episodesPerSeason'));
         }
     }
 
@@ -113,13 +109,13 @@ class SeriesManagementService
 
         if ($seasonsQty < $newSeasonsQty) {
             $this->seasonsRepository->increaseSeasons(
-                $series->id, 
+                $series, 
                 $seasonsQty, 
                 $newSeasonsQty, 
                 $episodesPerSeason
             );
         } elseif ($seasonsQty > $newSeasonsQty) {
-            $this->seasonsRepository->decreaseSeasons($series->id, $seasonsQty, $newSeasonsQty);
+            $this->seasonsRepository->decreaseSeasons($series, $seasonsQty, $newSeasonsQty);
         } else {
             return null;
         }
@@ -129,14 +125,14 @@ class SeriesManagementService
     {
         if ($episodesPerSeason < $newEpisodesPerSeason) {
             $this->episodesRepository->increaseEpisodes(
-                $series->id, 
+                $series, 
                 $seasons, 
                 $episodesPerSeason, 
                 $newEpisodesPerSeason
             );
         } elseif ($episodesPerSeason > $newEpisodesPerSeason) {
             $this->episodesRepository->decreaseEpisodes(
-                $series->id, 
+                $series, 
                 $seasons, 
                 $episodesPerSeason, 
                 $newEpisodesPerSeason
