@@ -7,6 +7,7 @@ use App\Models\Series;
 use App\Repositories\EpisodesRepository;
 use App\Repositories\SeasonsRepository;
 use App\Repositories\SeriesRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SeriesManagementService
@@ -26,9 +27,9 @@ class SeriesManagementService
         $this->episodesRepository = $episodesRepository;
     }
 
-    public function getAllSeriesWithPagesData(): array
+    public function getAllSeriesWithPagesData(Request $request): array
     {
-        $series = $this->seriesRepository->getAll(4);
+        $series = $this->seriesRepository->getAll(4, $request);
 
         $nextPageUrl = $series->nextPageUrl();
         $previousPageUrl = $series->previousPageUrl();
@@ -108,9 +109,7 @@ class SeriesManagementService
             );
         } elseif ($series->seasonsQty > $newSeasonsQty) {
             $this->seasonsRepository->decreaseSeasons($series, $series->seasonsQty, $newSeasonsQty);
-        } else {
-            return null;
-        }
+        } 
     }
 
     public function updateEpisodesPerSeason(Series $series, int $episodesPerSeason, int $newEpisodesPerSeason)
@@ -127,8 +126,6 @@ class SeriesManagementService
                 $episodesPerSeason, 
                 $newEpisodesPerSeason
             );
-        } else {
-            return null;
         }
     }
 }

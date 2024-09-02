@@ -7,13 +7,20 @@ use App\Models\Episode;
 use App\Models\Season;
 use App\Models\Series;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class EloquentSeriesRepository implements SeriesRepository
 {
-    public function getAll(int $itemsPerPage): LengthAwarePaginator
+    public function getAll(int $itemsPerPage, Request $request): LengthAwarePaginator
     {
-        $series = Series::query()->paginate($itemsPerPage);
+        $query = Series::query();
+
+        if ($name = $request->input('name')) {
+            $query->where('name', 'ILIKE', '%' . $name . '%');
+        }
+
+        $series = $query->paginate($itemsPerPage);
 
         return $series;
     }

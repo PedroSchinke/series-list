@@ -23,7 +23,7 @@ class SeriesController extends Controller
 
     public function index(Request $request) 
     {
-        $series = $this->seriesService->getAllSeriesWithPagesData();
+        $series = $this->seriesService->getAllSeriesWithPagesData($request);
 
         $successMessage = $request->session()->get('message.success');
 

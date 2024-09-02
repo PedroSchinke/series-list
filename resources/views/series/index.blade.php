@@ -2,21 +2,42 @@
 
     <div class="d-flex align-items-center justify-content-between px-2">
         <h1>Series</h1>
-
+        
         @auth
-        <a href="{{ route('series.create') }}" class="btn btn-dark">Add</a>
+        <a 
+            href="{{ route('series.create') }}" 
+            class="btn btn-dark btn-sm fw-bold d-flex justify-content-center align-items-center pb-auto" 
+            style="border-radius: 20px; width: 25px; height: 25px; top: 50%; left: 50%; font-size: 18px"
+        >
+            +
+        </a>
         @endauth
     </div>
 
+    <form action="{{ route('series.index') }}" method="GET" class="d-flex gap-3">
+        @csrf
+        <input 
+            type="text" 
+            name="name" id="name" 
+            class="form-control" 
+            style="border-radius: 20px; font-size: 12px; height: fit-content"
+            placeholder="Search for a title..."
+        >
+        <button type="submit" class="btn btn-dark">LUPA</button>
+    </form>
+    
     <ul class="list-group">
         @foreach ($seriesArray as $series)
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+            <li 
+                class="list-group-item d-flex justify-content-between align-items-center" 
+                style="border-radius: 20px;"
+            >
                 <div class="d-flex gap-2 align-items-center">
                     <img 
                         src="{{ asset($series->cover) }}" 
                         alt="{{ $series->name }} cover"
                         class="img-thumbnail"
-                        style="width: 100px; height: 65px"
+                        style="width: 100px; height: 60px; object-fit: cover;"
                     >
     
                     <a href="{{ route('seasons.index', $series->id) }}" class="text-decoration-none">
@@ -51,6 +72,7 @@
         <a 
             href="{{ $previousPageUrl }}" 
             class="btn btn-primary btn-sm @if (!isset($previousPageUrl)) disabled @endif"
+            style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px;"
         >
             Previous
         </a>
@@ -70,6 +92,7 @@
         <a 
             href="{{ $nextPageUrl }}" 
             class="btn btn-primary btn-sm @if (!isset($nextPageUrl)) disabled @endif"
+            style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px;"
         >
             Next
         </a>
