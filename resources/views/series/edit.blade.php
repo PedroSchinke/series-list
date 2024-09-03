@@ -1,5 +1,5 @@
 <x-layout title="Edit series '{!! $series->name !!}'">
-    <h1>Edit {{ $series->name }}</h1>
+    <h1 class="mb-3">Edit {{ $series->name }}</h1>
     
     <form 
         action="{{ route('series.update', $series->id) }}" 
@@ -9,55 +9,55 @@
         @csrf
         @method('PUT')
     
-        <div class="d-flex flex-column mb-3 gap-2">
-            <div class="col-6">
-                <label for="name" class="form-label mb-1">Name:</label>
+        <div class="d-flex flex-column gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <label for="name" class="form-label">Name</label>
                 <input 
                     type="text" 
                     id="name" 
                     name="name" 
-                    class="form-control"
+                    class="form-control w-50"
                     value="{{ $series->name }}"
                     autofocus
                 >
             </div>
 
-            <div class="column col-1">
-                <label for="seasonsQty" class="form-label mb-1" style="width: 200px">Number of seasons:</label>
+            <div class="d-flex align-items-center gap-3">
+                <label for="seasonsQty" class="form-label">Number of seasons</label>
                 <input 
-                    type="text" 
+                    type="number" 
                     id="seasonsQty" 
                     name="seasonsQty" 
                     class="form-control"
-                    value="{{ $series->seasons->count() }}"
+                    style="width: 60px"
+                    value="{{ $series->seasonsQty }}"
                 >
             </div>
 
-            <div class="col-1">
-                <label for="episodesPerSeason" class="form-label mb-1" style="width: 200px">Episodes per season:</label>
+            <div class="d-flex align-items-center gap-3">
+                <label for="episodesPerSeason" class="form-label">Episodes per season</label>
                 <input 
-                    type="text" 
+                    type="number" 
                     id="episodesPerSeason" 
                     name="episodesPerSeason" 
                     class="form-control"
-                    value="{{ $series->episodes->count() / $series->seasons->count() }}"
+                    style="width: 60px"
+                    value="{{ $series->episodesPerSeason }}"
                 >
             </div>
 
-            <div class="row mb-3">
-                <div class="col-6">
-                    <label for="cover" class="form-label mb-1">Cover</label>
-                    <input 
-                        type="file" 
-                        id="cover" 
-                        name="cover" 
-                        class="form-control"
-                        accept="image/gif, image/jpeg, image/png"
-                    >
-                </div>
+            <div class="d-flex align-items-center gap-3">
+                <label for="cover" class="form-label">Cover</label>
+                <input 
+                    type="file" 
+                    id="cover" 
+                    name="cover" 
+                    class="form-control w-75"
+                    accept="image/gif, image/jpeg, image/png"
+                >
             </div>
         </div>
     
-        <button type="submit" class="btn btn-primary">Edit</button>
+        <button type="submit" class="btn btn-primary mt-3">Edit</button>
     </form>
 </x-layout>
