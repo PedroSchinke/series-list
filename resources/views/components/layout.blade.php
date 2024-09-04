@@ -6,6 +6,11 @@
     <title>{{ $title }}</title>
     <link rel="stylesheet" href="{{ asset('css/app.css')}}">
     <link rel="stylesheet" href="{{ asset('css/styles.css')}}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
     <script src="{{ mix('js/app.js') }}"></script>
 </head>
 <body>
@@ -14,15 +19,20 @@
             <a 
                 href="{{ route('series.index') }}" 
                 class="btn btn-link text-white text-decoration-none"
+                style="font-family: 'Pacifico', cursive; font-size: 1.8rem;"
             >
-                Home
+                SeriesFlix
             </a>
     
             @auth
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button class="btn btn-link text-white text-decoration-none">
-                        Logout
+                    <button 
+                        class="d-flex align-items-center justify-content-center btn btn-link text-white fw-bold text-decoration-none p-0" 
+                        style="font-family: 'Nunito', sans-serif"
+                        title="Log out"
+                    >
+                        <i class='bx bx-log-out' style="font-size: 1.3rem"></i>
                     </button>
                 </form>
             @endauth
@@ -30,15 +40,16 @@
             @guest
                 <a 
                     href="{{ route('login') }}" 
-                    class="btn btn-link text-white text-decoration-none"
+                    class="d-flex align-items-center justify-content-center btn btn-link text-white fw-bold text-decoration-none"
+                    title="Log in"
                 >
-                    Login
+                    <i class='bx bx-log-in' style="font-size: 1.3rem"></i>
                 </a>
             @endguest
         </div>
     </nav>
 
-    <div class="container mb-5 mt-3">
+    <div class="bg-secondary p-5 pt-4">
         
         @isset($successMessage)
             <div class="alert alert-success">

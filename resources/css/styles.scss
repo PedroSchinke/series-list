@@ -1,1 +1,61 @@
+$primary: #ab1515;
+$primary-hover: #9b0e0e;
+$secondary: #0c0c0c;
+$light: #ededed;
+$light-m: #bcbcbc;
+
+.dark-input {
+    color: $light !important;
+    border: none !important;
+}
+
+.dark-input::placeholder {
+    color: $light-m !important;
+}
+
+.dark-input:focus {
+    border: none !important;
+    outline: 0;
+    box-shadow: none !important;
+}
+
+.search-button {
+    border: none !important;
+}
+
+.search-button:hover {
+    background-color: $primary-hover !important;
+    border: none;
+}
+
+#series {
+    transition: transform 0.5s ease, box-shadow 0.3s ease;
+}
+
+#series:hover {
+    transform: scale(1.01);
+    box-shadow: 0px 0px 10px 3px #252525;
+}
+
+#series-buttons {
+    display: none !important;
+}
+
+#series:hover #series-buttons {
+    display: flex !important;
+}
+
+.series-icon-button {
+    color: $light;
+}
+
+.series-icon-button:hover {
+    color: $primary !important;
+    transition: 0.15s;
+}
+
+.login-button:hover {
+    background-color: $primary-hover !important;
+}
+
 @import "bootstrap/scss/bootstrap";
