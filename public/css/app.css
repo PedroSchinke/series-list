@@ -518,8 +518,6 @@ video {
 }@media (min-width: 1536px) {.container {
     max-width: 1536px;
   }
-}.visible {
-  visibility: visible;
 }.fixed {
   position: fixed;
 }.absolute {
@@ -661,8 +659,6 @@ video {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }.flex-col {
   flex-direction: column;
-}.flex-wrap {
-  flex-wrap: wrap;
 }.items-center {
   align-items: center;
 }.justify-end {
@@ -709,10 +705,10 @@ video {
   border-bottom-width: 2px;
 }.border-l-4 {
   border-left-width: 4px;
-}.border-t {
-  border-top-width: 1px;
 }.border-r {
   border-right-width: 1px;
+}.border-t {
+  border-top-width: 1px;
 }.border-gray-100 {
   --tw-border-opacity: 1;
   border-color: rgb(243 244 246 / var(--tw-border-opacity));
@@ -722,14 +718,17 @@ video {
 }.border-gray-300 {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
+}.border-gray-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }.border-indigo-400 {
   --tw-border-opacity: 1;
   border-color: rgb(129 140 248 / var(--tw-border-opacity));
 }.border-transparent {
   border-color: transparent;
-}.border-gray-400 {
-  --tw-border-opacity: 1;
-  border-color: rgb(156 163 175 / var(--tw-border-opacity));
+}.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }.bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -739,21 +738,18 @@ video {
 }.bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }.fill-current {
   fill: currentColor;
 }.p-0 {
   padding: 0px;
+}.p-1 {
+  padding: 0.25rem;
 }.p-2 {
   padding: 0.5rem;
 }.p-5 {
   padding: 1.25rem;
 }.p-6 {
   padding: 1.5rem;
-}.p-1 {
-  padding: 0.25rem;
 }.px-0 {
   padding-left: 0px;
   padding-right: 0px;
@@ -835,10 +831,10 @@ video {
   line-height: 1.75rem;
 }.leading-tight {
   line-height: 1.25;
-}.tracking-widest {
-  letter-spacing: 0.1em;
 }.tracking-wider {
   letter-spacing: 0.05em;
+}.tracking-widest {
+  letter-spacing: 0.1em;
 }.text-gray-200 {
   --tw-text-opacity: 1;
   color: rgb(229 231 235 / var(--tw-text-opacity));
@@ -875,9 +871,6 @@ video {
 }.text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}.text-gray-100 {
-  --tw-text-opacity: 1;
-  color: rgb(243 244 246 / var(--tw-text-opacity));
 }.underline {
   text-decoration-line: underline;
 }.antialiased {
