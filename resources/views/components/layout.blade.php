@@ -18,6 +18,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+
+    {{-- Scripts --}}
     <script defer src="{{ mix('js/app.js') }}"></script>
 </head>
 <body>
@@ -87,18 +89,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $(document).ready(function(){
-                $(".owl-carousel").owlCarousel({
-                    items: 5,
-                    nav: true,
-                    margin: 3,
-                    navSpeed: 1000,
-                    navText: ['<i class="bx bx-chevron-left text-light"></i>', '<i class="bx bx-chevron-right text-light"></i>']
-                });
+        $(document).ready(function(){
+            $(".owl-carousel").owlCarousel({
+                items: 5,
+                nav: true,
+                margin: 3,
+                navSpeed: 1000,
+                navText: ['<i class="bx bx-chevron-left text-light"></i>', '<i class="bx bx-chevron-right text-light"></i>']
             });
-        })
+        });
     </script>
-
 </body>
 </html>

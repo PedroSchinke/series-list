@@ -12,8 +12,8 @@
 
     <form action="{{ route('seasons.index', $series->id) }}" class="mb-2">
         <select 
-            id="Season" 
-            name="Season" 
+            id="season" 
+            name="season" 
             class="bg-dark text-light rounded-2 border-0 dark-input"
             style="cursor: pointer"
         >
@@ -29,8 +29,7 @@
     </form>
 
     <section id="carousel-container">
-
-        <div class="owl-carousel" style="overflow: visible">
+        <div class="owl-carousel">
             @foreach ($episodes as $episode)
                 <li class="list-item d-flex align-items-center gap-2" style="margin: 2px">
                     <div class="bg-black rounded episode-card">
@@ -41,13 +40,56 @@
                         >
                         <div class="d-flex align-items-center p-1">
                             <p class="text-gray-300 m-0">
-                                Episode {{ $episode->number }}
+                                Episode {{ $episode->number }} {{ $episode->id }}
                             </p>
                         </div>
                     </div>
                 </li>
             @endforeach
         </div>
-
     </section>
+
+    <script>
+        document.getElementById('season').addEventListener('change', function() {
+            let seasonNumber = this.value;
+            let seriesId = '{{ $series->id }}';
+            
+            fetch(`{{ route('seasons.index', $series->id) }}?season=${seasonNumber}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(episodes => {
+                $('.owl-carousel').trigger('destroy.owl.carousel'); // Destroys current carousel
+
+                let carouselContainer = document.querySelector('.owl-carousel');
+                carouselContainer.innerHTML = '';
+                
+                episodes.forEach(episode => {
+                    let episodeItem = `
+                        <li class="list-item d-flex align-items-center gap-2" style="margin: 2px">
+                            <div class="bg-black rounded episode-card">
+                                <img src="{{ asset($series->cover) }}" alt="{{ $series->name }} cover" class="rounded-top">
+                                <div class="d-flex align-items-center p-1">
+                                    <p class="text-gray-300 m-0">Episode ${episode.number} ${episode.id}</p>
+                                </div>
+                            </div>
+                        </li>
+                    `;
+                    carouselContainer.innerHTML += episodeItem;
+                });
+                
+                // Creates new carousel
+                $(".owl-carousel").owlCarousel({
+                    items: 5,
+                    nav: true,
+                    margin: 3,
+                    navSpeed: 1000,
+                    navText: ['<i class="bx bx-chevron-left text-light"></i>', '<i class="bx bx-chevron-right text-light"></i>']
+                });
+            })
+            .catch(error => console.log('Error:', error));
+        });
+    </script>
 </x-layout> 
