@@ -17,6 +17,7 @@
 
     <form action="{{ route('series.index') }}" method="GET" class="d-flex mb-3" style="height: 30px;">
         <input 
+            id="seriesSearch"
             type="text" 
             name="name" id="name" 
             class="form-control w-100 bg-dark text-light dark-input" 
@@ -43,7 +44,7 @@
     </form>
 
     @if (count($seriesArray) > 0)
-        <ul class="d-flex flex-column gap-2 px-0">
+        <ul id="series-list" class="d-flex flex-column gap-2 px-0">
             @foreach ($seriesArray as $series)
                 <li 
                     id="series"
@@ -96,7 +97,7 @@
             @endforeach
         </ul>
 
-        <div class="d-flex justify-content-center align-items-center gap-3 pt-3 pb-3" style="width: 100%">
+        <div id="series-nav-bar" class="d-flex justify-content-center align-items-center gap-3 pt-3 pb-3" style="width: 100%">
             <a 
                 href="{{ $previousPageUrl }}" 
                 class="btn d-flex align-items-center justify-content-center text-decoration-none @if (!isset($previousPageUrl)) disabled @endif"
@@ -134,5 +135,133 @@
             <p class="text-light">Your series list is empty. Add series to watch</p>
         </div>
     @endif
+
+    {{-- var seriesIndexUrl = "{{ route('series.index') }}";
+    var csrfToken = "{{ csrf_token() }}";
+    var lastPage = {{ $lastPage ?? 1 }};
+    var currentPage = {{ $currentPage ?? 1 }};
+    var isAuthenticated = @auth true @else false @endauth; --}}
+
+    <script>
+        let typingTimer;
+
+        document.getElementById('seriesSearch').addEventListener('input', function() {
+            clearTimeout(typingTimer);
+
+            const seriesName = this.value;
+
+            typingTimer = setTimeout(function() {
+                fetch(`{{ route('series.index') }}?name=${seriesName}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(series => {
+                    console.log('requisição');
+                    const seriesList = document.getElementById('series-list');
+                    seriesList.innerHTML = '';
+                    console.log(series);
+
+                    if (series['data'].length > 0) {
+                        series['data'].forEach(series => {
+                            const seriesItem = `
+                                <li 
+                                    id="series"
+                                    class="d-flex justify-content-between align-items-center p-0" 
+                                    style="height: 60px; box-shadow: 0px 0px 3px 1px #252525; border-radius: 10px; padding: 7px 12px; cursor: pointer;"
+                                >
+                                    <a href="/series/${series.id}/seasons" class="text-decoration-none text-light w-100">
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <img 
+                                                src="${series.cover}" 
+                                                alt="${series.name} cover"
+                                                style="width: 100px; height: 60px; object-fit: cover; border-top-left-radius: 10px; border-bottom-left-radius: 10px;"
+                                            >
+                                            ${series.name}
+                                        </div>
+                                    </a>
+
+                                    @auth
+                                    <div id="series-buttons" class="d-flex gap-2 align-items-center h-100" style="display: none;">
+                                        <a 
+                                            href="/series/${series.id}/edit"
+                                            class="btn btn-sm d-flex align-items-center"
+                                            style="width: 1.2rem; background-color: transparent; padding: 0;"
+                                        >
+                                            <i class='bx bxs-pencil bx-xs series-icon-button' title="Edit"></i>
+                                        </a>
+                            
+                                        <form action="/series/${series.id}" method="POST" style="width: fit-content; height: fit-content;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button 
+                                                class="btn btn-sm d-flex justify-content-center align-items-center p-0" 
+                                                style="width: 1.2rem; height: 1.2rem; background-color: transparent;"
+                                            >
+                                                <i class='bx bxs-trash-alt bx-xs series-icon-button' title="Delete"></i>
+                                            </button>
+                                        </form>
+
+                                        <a 
+                                            href="/seasons/${series.id}"
+                                            class="d-flex align-items-center justify-content-center h-100 bg-primary text-decoration-none"  
+                                            style="width: 20px;border-top-right-radius: 10px; border-bottom-right-radius: 10px;"
+                                        >
+                                            <i class='bx bxs-chevron-right text-secondary' ></i>
+                                        </a>
+                                    </div>
+                                    @endauth
+
+                                </li>
+                            `;
+                            seriesList.innerHTML += seriesItem;
+                        })
+                        
+                        const seriesNavBar = document.getElementById('series-nav-bar');
+                            seriesNavBar.innerHTML = '';
+
+                            seriesNavBar.innerHTML = `
+                                <a 
+                                    href="${series.prev_page_url}" 
+                                    class="btn d-flex align-items-center justify-content-center text-decoration-none @if (!isset($previousPageUrl)) disabled @endif"
+                                    style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
+                                >
+                                    <i class='bx bxs-left-arrow text-primary' title="Previous page"></i>
+                                </a>
+                        
+                                <div class="d-flex gap-2">
+                                    @for ($i = 1; $i <= $lastPage; $i++)
+                                        <a 
+                                            href="{{ $seriesArray->url($i) }}"
+                                            class="text-decoration-none text-primary"
+                                            style="@if ($i !== $currentPage) opacity: 50%; @endif"
+                                        >
+                                            {{ $i }}
+                                        </a>
+                                    @endfor
+                                </div>
+                        
+                                <a 
+                                    href="${series.next_page_url}" 
+                                    class="btn d-flex align-items-center justify-content-center text-decoration-none @if (!isset($nextPageUrl)) disabled @endif"
+                                    style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
+                                >
+                                    <i class='bx bxs-right-arrow text-primary' title="Next page"></i>
+                                </a>
+                            `;
+                    } else {
+                        const noResultsMessage = `
+                            <div class="d-flex justify-content-center mt-4">
+                                <p class="text-light">No series with the name '${seriesName}' were found</p>
+                            </div>
+                        `;
+                        seriesList.innerHTML = noResultsMessage;
+                    }
+                })
+                .catch(error => console.log('Error:', error));
+            }, 1000)
+        })
+    </script>
 
 </x-layout>
