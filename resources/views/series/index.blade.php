@@ -8,6 +8,7 @@
             href="{{ route('series.create') }}" 
             class="btn btn-dark btn-sm fw-bold d-flex justify-content-center align-items-center pb-auto" 
             style="border-radius: 20px; width: 25px; height: 25px; top: 50%; left: 50%; font-size: 18px"
+            title="Add series"
         >
             <i class='bx bx-plus' ></i>
         </a>
@@ -15,7 +16,6 @@
     </div>
 
     <form action="{{ route('series.index') }}" method="GET" class="d-flex mb-3" style="height: 30px;">
-        @csrf
         <input 
             type="text" 
             name="name" id="name" 
@@ -30,11 +30,13 @@
                 border: none;
             "
             placeholder="Search for a title..."
+            value="{{ $name }}"
         >
         <button 
             type="submit" 
             class="btn btn-dark bg-primary d-flex justify-content-center align-items-center search-button"
             style="border-radius: 20px; border-top-left-radius: 0; border-bottom-left-radius: 0;"
+            title="Search"
         >
             <i class='bx bx-search' style="font-size: 1.1rem; font-weight: bold; margin-right: 3px"></i>
         </button>
@@ -106,7 +108,7 @@
             <div class="d-flex gap-2">
                 @for ($i = 1; $i <= $lastPage; $i++)
                     <a 
-                        href="http://127.0.0.1:8000/series?page={{ $i }}"
+                        href="{{ $seriesArray->url($i) }}"
                         class="text-decoration-none text-primary"
                         style="@if ($i !== $currentPage) opacity: 50%; @endif"
                     >

@@ -22,12 +22,12 @@ class SeriesController extends Controller
         $query = Series::query();
 
         if ($name = $request->input('name')) {
-            $query->where('name', 'LIKE', '%' . $name . '%');
+            $query->where('name', 'ILIKE', '%' . $name . '%');
         }
 
         $series = $query->paginate(4);
 
-        return $series;
+        return $series->appends($request->query());
     }
 
     public function store(SeriesFormRequest $request)

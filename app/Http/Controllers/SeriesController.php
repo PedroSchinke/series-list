@@ -31,12 +31,13 @@ class SeriesController extends Controller
 
         return view('series.index', [
             'title' => 'Series',
-            'seriesArray' => $series['series'],
+            'seriesArray' => $series['series']->withQueryString(),
             'successMessage' => $successMessage,
             'nextPageUrl' => $series['nextPageUrl'],
             'previousPageUrl' => $series['previousPageUrl'],
             'lastPage' => $series['lastPage'],
-            'currentPage' => $series['currentPage']
+            'currentPage' => $series['currentPage'],
+            'name' => $request->input('name', '')
         ]);
         // OR => return view('series-list')->with('series', $series);
     }
