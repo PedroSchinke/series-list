@@ -4,6 +4,10 @@ $secondary: #0c0c0c;
 $light: #ededed;
 $light-m: #bcbcbc;
 
+html, body {
+    height: 100%;
+}
+
 .dark-input {
     color: $light !important;
     border: none !important;
@@ -14,6 +18,12 @@ $light-m: #bcbcbc;
 }
 
 .dark-input:focus {
+    border: none !important;
+    outline: 0;
+    box-shadow: none !important;
+}
+
+.no-focus:focus {
     border: none !important;
     outline: 0;
     box-shadow: none !important;
@@ -56,6 +66,54 @@ $light-m: #bcbcbc;
 
 .login-button:hover {
     background-color: $primary-hover !important;
+}
+
+.owl-stage {
+    overflow-x: visible;
+}
+
+.episode-card {
+    transition: transform 0.5s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.episode-card:hover {
+    transform: scale(1.03);
+}
+
+.owl-prev, .owl-next {
+    width: 15px;
+    height: 50px;
+    position: absolute;
+    top: 30%;
+    transform: translateY(-50%);
+    display: block !important;
+    border:0px solid black;
+}
+
+.owl-prev { 
+    left: -25px; 
+}
+
+.owl-prev.disabled {
+    display: none !important; 
+}
+
+.owl-next { 
+    right: -25px; 
+}
+
+.owl-next.disabled {
+    display: none !important; 
+}
+
+.owl-prev i, .owl-next i {
+    transform : scale(1, 3.5);
+    transition: transform 0.5s ease, box-shadow 0.3s ease;
+}
+
+.owl-prev i:hover, .owl-next i:hover {
+    transform: scale(1.2, 4);
 }
 
 @import "bootstrap/scss/bootstrap";

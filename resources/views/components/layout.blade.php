@@ -4,14 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title }}</title>
+
+    {{-- Styles --}}
     <link rel="stylesheet" href="{{ asset('css/app.css')}}">
     <link rel="stylesheet" href="{{ asset('css/styles.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css')}}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script defer src="{{ mix('js/app.js') }}"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -49,7 +56,7 @@
         </div>
     </nav>
 
-    <div class="bg-secondary p-5 pt-4">
+    <div class="bg-secondary p-5 pt-4" style="min-height: calc(100% - 72.35px)">
         
         @isset($successMessage)
             <div class="alert alert-success">
@@ -74,6 +81,24 @@
     @env('local')
         <script src="http://localhost:35729/livereload.js"></script>
     @endenv
+
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+    <script defer src="{{ asset('js/owl.carousel.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).ready(function(){
+                $(".owl-carousel").owlCarousel({
+                    items: 5,
+                    nav: true,
+                    margin: 8,
+                    navSpeed: 1000,
+                    navText: ['<i class="bx bxs-left-arrow text-light"></i>', '<i class="bx bxs-right-arrow text-light"></i>']
+                });
+            });
+        })
+    </script>
 
 </body>
 </html>

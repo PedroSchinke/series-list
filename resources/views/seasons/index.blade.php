@@ -1,26 +1,53 @@
-<x-layout title="Seasons of {!! $series->name !!}" :successMessage="$successMessage">
-    <h1 class="text-light fw-bold" style="font-family: 'Nunito', sans-serif">Seasons of {{$series->name}}</h1>
+<x-layout title="SeriesFlix - {!! $series->name !!}" :successMessage="$successMessage">
+    <div class="d-flex justify-content-between">
+        <h1 class="text-light fw-bold" style="font-family: 'Nunito', sans-serif">{{$series->name}}</h1>
+    
+        <img 
+            src="{{ asset($series->cover) }}" 
+            alt="Series cover"
+            class="img-fluid"
+            style="height: 250px"
+        >
+    </div>
 
-    <img 
-        src="{{ asset($series->cover) }}" 
-        alt="Series cover"
-        class="img-fluid"
-        style="height: 250px"
-    >
-
-    <ul class="d-flex flex-column gap-2 p-0 mt-3">
-        @foreach ($seasons as $season)
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="{{ route('episodes.index', $season->id) }}" class="text-light text-decoration-none">
+    <form action="{{ route('seasons.index', $series->id) }}" class="mb-2">
+        <select 
+            id="Season" 
+            name="Season" 
+            class="bg-dark text-light rounded-2 border-0 dark-input"
+            style="cursor: pointer"
+        >
+            @foreach ($seasons as $season)
+                <option 
+                    value="{{ $season->number }}"
+                    class="bg-dark text-light rounded"
+                >
                     Season {{ $season->number }}
-                </a>
+                </option>
+            @endforeach
+        </select>
+    </form>
 
-                <div class="badge bg-secondary text-primary">
-                    {{ $season->numberOfWatchedEpisodes() }} / {{ $season->episodes->count() }}
-                </div>
+    <section id="carousel-container">
 
-            </li>
-        @endforeach
-    </ul>
+        <div class="owl-carousel" style="overflow: visible">
+            @foreach ($episodes as $episode)
+                <li class="list-item d-flex align-items-center gap-2 mb-2">
+                    <div class="bg-black rounded episode-card">
+                        <img 
+                            src="{{ asset($series->cover) }}" 
+                            alt="{{ $series->name }} cover"
+                            class="rounded-top"
+                        >
+                        <div class="d-flex align-items-center p-1">
+                            <p class="text-gray-300 m-0">
+                                Episode {{ $episode->number }}
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            @endforeach
+        </div>
 
+    </section>
 </x-layout> 

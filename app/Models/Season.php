@@ -9,6 +9,7 @@ class Season extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $with = ['episodes']; // To not use lazy loading in episodes
     protected $fillable = ['number'];
 
     public function series()

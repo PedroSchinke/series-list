@@ -1,4 +1,8 @@
 @charset "UTF-8";
+html, body {
+  height: 100%;
+}
+
 .dark-input {
   color: #ededed !important;
   border: none !important;
@@ -13,6 +17,12 @@
 }
 
 .dark-input:focus {
+  border: none !important;
+  outline: 0;
+  box-shadow: none !important;
+}
+
+.no-focus:focus {
   border: none !important;
   outline: 0;
   box-shadow: none !important;
@@ -55,6 +65,54 @@
 
 .login-button:hover {
   background-color: #9b0e0e !important;
+}
+
+.owl-stage {
+  overflow-x: visible;
+}
+
+.episode-card {
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.episode-card:hover {
+  transform: scale(1.03);
+}
+
+.owl-prev, .owl-next {
+  width: 15px;
+  height: 50px;
+  position: absolute;
+  top: 30%;
+  transform: translateY(-50%);
+  display: block !important;
+  border: 0px solid black;
+}
+
+.owl-prev {
+  left: -25px;
+}
+
+.owl-prev.disabled {
+  display: none !important;
+}
+
+.owl-next {
+  right: -25px;
+}
+
+.owl-next.disabled {
+  display: none !important;
+}
+
+.owl-prev i, .owl-next i {
+  transform: scale(1, 3.5);
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+}
+
+.owl-prev i:hover, .owl-next i:hover {
+  transform: scale(1.2, 4);
 }
 
 /*!
