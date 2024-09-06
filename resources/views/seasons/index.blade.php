@@ -10,23 +10,21 @@
         >
     </div>
 
-    <form action="{{ route('seasons.index', $series->id) }}" class="mb-2">
-        <select 
-            id="season" 
-            name="season" 
-            class="bg-dark text-light rounded-2 border-0 dark-input"
-            style="cursor: pointer"
-        >
-            @foreach ($seasons as $season)
-                <option 
-                    value="{{ $season->number }}"
-                    class="bg-dark text-light rounded"
-                >
-                    Season {{ $season->number }}
-                </option>
-            @endforeach
-        </select>
-    </form>
+    <select 
+        id="season" 
+        name="season" 
+        class="bg-dark text-light rounded-2 border-0 dark-input mb-2"
+        style="cursor: pointer"
+    >
+        @foreach ($seasons as $season)
+            <option 
+                value="{{ $season->number }}"
+                class="bg-dark text-light rounded"
+            >
+                Season {{ $season->number }}
+            </option>
+        @endforeach
+    </select>
 
     <section id="carousel-container">
         <div class="owl-carousel">
