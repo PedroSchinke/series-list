@@ -84,14 +84,13 @@ html, body {
   width: 15px;
   height: 50px;
   position: absolute;
-  top: 30%;
-  transform: translateY(-50%);
+  top: 22%;
   display: block !important;
   border: 0px solid black;
 }
 
 .owl-prev {
-  left: -25px;
+  left: -18px;
 }
 
 .owl-prev.disabled {
@@ -99,7 +98,7 @@ html, body {
 }
 
 .owl-next {
-  right: -25px;
+  right: -18px;
 }
 
 .owl-next.disabled {
@@ -107,12 +106,12 @@ html, body {
 }
 
 .owl-prev i, .owl-next i {
-  transform: scale(1, 3.5);
+  transform: scale(2, 3);
   transition: transform 0.5s ease, box-shadow 0.3s ease;
 }
 
 .owl-prev i:hover, .owl-next i:hover {
-  transform: scale(1.2, 4);
+  transform: scale(2.4, 3.4);
 }
 
 /*!

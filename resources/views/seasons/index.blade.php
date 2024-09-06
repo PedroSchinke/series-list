@@ -32,7 +32,7 @@
 
         <div class="owl-carousel" style="overflow: visible">
             @foreach ($episodes as $episode)
-                <li class="list-item d-flex align-items-center gap-2 mb-2">
+                <li class="list-item d-flex align-items-center gap-2" style="margin: 2px">
                     <div class="bg-black rounded episode-card">
                         <img 
                             src="{{ asset($series->cover) }}" 

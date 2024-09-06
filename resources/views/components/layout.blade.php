@@ -92,9 +92,9 @@
                 $(".owl-carousel").owlCarousel({
                     items: 5,
                     nav: true,
-                    margin: 8,
+                    margin: 3,
                     navSpeed: 1000,
-                    navText: ['<i class="bx bxs-left-arrow text-light"></i>', '<i class="bx bxs-right-arrow text-light"></i>']
+                    navText: ['<i class="bx bx-chevron-left text-light"></i>', '<i class="bx bx-chevron-right text-light"></i>']
                 });
             });
         })
