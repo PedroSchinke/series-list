@@ -23,6 +23,11 @@ class Series extends Model
         return $this->hasManyThrough(Episode::class, Season::class);
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_series');
+    }
+
     /**
      * Global scope
      * -> returns array sorted in ascending alphabetical order
