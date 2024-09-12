@@ -71,6 +71,10 @@ class SeriesManagementService
 
     public function updateSeriesAttributes(Series $series, SeriesFormRequest $request)
     {
+        $selectedCategories = $request->input('selected_categories', '');
+        $categoryIds = explode(',', $selectedCategories);
+        $series->categories()->sync($categoryIds);
+        
         if ($series->name !== $request->input('name') || $request->hasFile('cover')) {
             if ($request->hasFile('cover')) {
                 $cover = $request->file('cover')->store('series_cover', 'public');

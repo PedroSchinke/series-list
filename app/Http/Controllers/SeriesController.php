@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\SeriesCreated as EventSeriesCreated;
 use App\Http\Requests\SeriesFormRequest;
+use App\Models\Category;
 use App\Models\Series;
 use App\Repositories\SeriesRepository;
 use App\Services\SeriesManagementService;
@@ -89,8 +90,11 @@ class SeriesController extends Controller
 
     public function edit(Series $series)
     {
+        $categories = Category::all();
+
         return view('series.edit', [
-            'series' => $series
+            'series' => $series,
+            'categories' => $categories
         ]);
     }
 
