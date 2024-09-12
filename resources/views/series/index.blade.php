@@ -158,10 +158,8 @@
                 })
                 .then(response => response.json())
                 .then(series => {
-                    console.log('requisição');
                     const seriesList = document.getElementById('series-list');
                     seriesList.innerHTML = '';
-                    console.log(series);
 
                     if (series['data'].length > 0) {
                         series['data'].forEach(series => {
@@ -260,7 +258,7 @@
                     }
                 })
                 .catch(error => console.log('Error:', error));
-            }, 1000)
+            }, 2000)
         })
     </script>
 
