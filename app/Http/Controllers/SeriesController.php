@@ -49,7 +49,11 @@ class SeriesController extends Controller
 
     public function create()
     {
-        return view('series.create');
+        $categories = Category::all();
+
+        return view('series.create', [
+            'categories' => $categories
+        ]);
     }
 
     public function store(SeriesFormRequest $request)

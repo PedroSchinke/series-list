@@ -68,6 +68,10 @@ class EloquentSeriesRepository implements SeriesRepository
             }
             Episode::insert($episodes);
 
+            $selectedCategories = $request->input('selected_categories', '');
+            $categoryIds = explode(',', $selectedCategories);
+            $series->categories()->sync($categoryIds);
+
             return $series;
         });
     }

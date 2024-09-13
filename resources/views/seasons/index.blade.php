@@ -1,6 +1,13 @@
 <x-layout title="SeriesFlix - {!! $series->name !!}" :successMessage="$successMessage">
     <div class="d-flex justify-content-between">
-        <h1 class="text-light fw-bold" style="font-family: 'Nunito', sans-serif">{{$series->name}}</h1>
+        <div class="d-flex flex-column">
+            <h1 class="text-light fw-bold" style="font-family: 'Nunito', sans-serif">{{ $series->name }}</h1>
+            <div class="d-flex gap-1">
+                @forEach($series->categories as $category)
+                    <span class="bg-dark rounded text-light" style="font-size: 0.7rem; padding: 1px 4px;">{{ $category->name }}</span>
+                @endforeach
+            </div>
+        </div>
     
         <img 
             src="{{ asset($series->cover) }}" 

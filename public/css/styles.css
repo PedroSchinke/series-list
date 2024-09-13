@@ -3,6 +3,10 @@ html, body {
   height: 100%;
 }
 
+button i {
+  pointer-events: none;
+}
+
 .dark-input {
   color: #ededed !important;
   border: none !important;

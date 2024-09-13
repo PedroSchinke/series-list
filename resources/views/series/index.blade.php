@@ -58,7 +58,14 @@
                                 alt="{{ $series->name }} cover"
                                 style="width: 100px; height: 60px; object-fit: cover; border-top-left-radius: 10px; border-bottom-left-radius: 10px;"
                             >
-                            {{ $series->name }}
+                            <div class="d-flex flex-column">
+                                {{ $series->name }}
+                                <div class="d-flex gap-1">
+                                    @forEach($series->categories as $category)
+                                        <span class="bg-dark rounded" style="font-size: 0.5rem; padding: 1px 4px;">{{ $category->name }}</span>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </a>
 

@@ -58,7 +58,7 @@
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <label for="cover" class="form-label text-light mb-0">Categories</label>
+                <label for="cover" class="form-label text-light mb-0">Categories (max. 4)</label>
                 <select 
                     name="categories" 
                     id="categories"
@@ -70,21 +70,14 @@
                         <option 
                             value="{{ $category->id }}"
                             class="bg-dark text-light rounded"
+                            style="cursor: pointer"
                         >
                             {{ $category->name }}
                         </option>
                     @endforeach
                 </select>
-                <div id="categories-selected-container" class="d-flex align-items-center gap-2">
-                    @foreach($series->categories as $category)
-                        <div class="d-flex align-items-center gap-1">
-                            <span>{{ $category->name }}</span>
-                            <button type="button" data-value="${value}" class="btn btn-sm btn-danger">
-                                <i class='bx bx-x'></i>
-                            </button>
-                        </div>
-                    @endforeach
-                </div>
+
+                <div id="categories-selected-container" class="d-flex align-items-center gap-2"></div>
                 <input type="hidden" name="selected_categories" id="selected-categories">
             </div>
         </div>
@@ -98,36 +91,48 @@
             const categoriesSelectedContainer = document.getElementById('categories-selected-container');
             const selectedCategoriesInput = document.getElementById('selected-categories');
 
-            let selectedCategories = [];
+            let selectedCategories = @json($series->categories->pluck('id')->toArray());
+
+            updateSelectedCategories();
 
             categorySelect.addEventListener('change', function() {
-                const selectedValue = categorySelect.value;
-                if (selectedValue && !selectedCategories.includes(selectedValue)) {
+                const selectedValue = parseInt(categorySelect.value);
+                if (selectedValue && !selectedCategories.includes(selectedValue) && selectedCategories.length < 4) {
                     selectedCategories.push(selectedValue);
+                    updateSelectedCategories();
+                }
+                categorySelect.value = categorySelect.querySelector(`option[id="default-option"]`).textContent;
+            });
+
+            categoriesSelectedContainer.addEventListener('click', function(e) {
+                const button = e.target.closest('button');
+                if (button) {
+                    const valueToRemove = parseInt(button.dataset.value);
+                    selectedCategories = selectedCategories.filter(value => value !== valueToRemove);
                     console.log(selectedCategories);
                     updateSelectedCategories();
                 }
             });
 
-            categoriesSelectedContainer.addEventListener('click', function(e) {
-                if (e.target.tagName === 'BUTTON') {
-                    const valueToRemove = e.target.dataset.value;
-                    selectedCategories = selectedCategories.filter(value => value !== valueToRemove);
-                    updateSelectedCategories();
-                }
-            });
-
             function updateSelectedCategories() {
-                categoriesSelectedContainer.innerHTML = selectedCategories.map(value => `
-                    <div class="d-flex align-items-center gap-1">
-                        <span>${categorySelect.querySelector(`option[value="${value}"]`).text}</span>
-                        <button type="button" data-value="${value}" class="btn btn-sm btn-danger">
-                            <i class='bx bx-x'></i>
-                        </button>
-                    </div>
-                `).join('');
+                categoriesSelectedContainer.innerHTML = selectedCategories.map(value => {
+                    const optionText = categorySelect.querySelector(`option[value="${value}"]`).textContent;
+
+                    return `
+                        <div class="d-flex align-items-center">
+                            <span class="text-gray-500">${optionText}</span>
+                            <button 
+                                type="button" data-value="${value}"
+                                class="btn btn-sm bg-transparent d-flex align-items-center p-0 mt-1" 
+                                style="width: fit-content; height: fit-content;"
+                            >
+                                <i class='bx bx-x'></i>
+                            </button>
+                        </div>
+                    `;
+                }).join('');
                 
-                selectedCategoriesInput.value = selectedCategories.join(',');
+                selectedCategoriesInput.value = selectedCategories;
             }
         });
     </script>
