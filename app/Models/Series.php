@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Series extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'cover', 'seasonsQty', 'episodesPerSeason'];
-    protected $with = ['seasons']; // To not use lazy loading in seasons
+    protected $fillable = ['name', 'cover', 'seasonsQty', 'episodesPerSeason', 'synopsis'];
+    protected $with = ['seasons', 'categories']; // To not use lazy loading in seasons and categories
     protected $appends = ['links']; // Add links of getLinksAttribute() to JSON response
 
     public function seasons()
@@ -26,6 +26,11 @@ class Series extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_series');
+    }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites');
     }
 
     /**

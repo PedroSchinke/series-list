@@ -12,6 +12,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function favoriteSeries()
+    {
+        return $this->belongsToMany(Series::class, 'favorites');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

@@ -75,21 +75,20 @@ class SeriesManagementService
         $categoryIds = explode(',', $selectedCategories);
         $series->categories()->sync($categoryIds);
         
-        if ($series->name !== $request->input('name') || $request->hasFile('cover')) {
-            if ($request->hasFile('cover')) {
-                $cover = $request->file('cover')->store('series_cover', 'public');
-                $request->merge(['coverPath' => 'storage/' . $cover]);
-            } else {
-                $request->merge(['coverPath' => $series->cover]);
-            }
-
-            $series->update([
-                'name' => $request->input('name'),
-                'cover' => $request->coverPath
-            ]);
-            //$series->fill($request->all())->save();
-            // OR => $series->name = $request->name;
+        if ($request->hasFile('cover')) {
+            $cover = $request->file('cover')->store('series_cover', 'public');
+            $request->merge(['coverPath' => 'storage/' . $cover]);
+        } else {
+            $request->merge(['coverPath' => $series->cover]);
         }
+
+        $series->update([
+            'name' => $request->input('name'),
+            'cover' => $request->coverPath,
+            'synopsis' => $request->input('synopsis')
+        ]);
+        //$series->fill($request->all())->save();
+        // OR => $series->name = $request->name;
     }
 
     public function handleSeasonsAndEpisodes(Series $series, SeriesFormRequest $request)

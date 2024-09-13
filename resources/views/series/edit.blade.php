@@ -23,6 +23,18 @@
             </div>
 
             <div class="d-flex align-items-center gap-3">
+                <label for="synopsis" class="form-label text-light mb-0">Synopsis</label>
+                <textarea 
+                    type="text" 
+                    id="synopsis" 
+                    name="synopsis" 
+                    class="form-control w-75 bg-dark dark-input"
+                    style="resize: none; font-size: 0.8rem;"
+                    value="{{ $series->synopsis }}"
+                >{{ $series->synopsis }}</textarea>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
                 <label for="seasonsQty" class="form-label text-light mb-0">Number of seasons</label>
                 <input 
                     type="number" 
