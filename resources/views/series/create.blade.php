@@ -123,7 +123,6 @@
                 if (button) {
                     const valueToRemove = parseInt(button.dataset.value);
                     selectedCategories = selectedCategories.filter(value => value !== valueToRemove);
-                    console.log(selectedCategories);
                     updateSelectedCategories();
                 }
             });
