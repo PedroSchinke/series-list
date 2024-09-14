@@ -40,12 +40,6 @@ Route::middleware('guest')->group(function () {
                 ->name('password.update');
 });
 
-/**
- * SERIES routes
- */
-Route::resource('/series', SeriesController::class)
-    ->except(['show']);
-
 // SAME AS =>
 // Route::controller(SeriesController::class)->group(function() {
 //     Route::get('/series', 'index')->name('series.index');
@@ -79,6 +73,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return redirect('/series');
     })->middleware(Authenticator::class);
+
+    /**
+     * SERIES routes
+     */
+    Route::resource('/series', SeriesController::class)
+    ->except(['show']);
 
     /**
      * SEASONS routes
@@ -115,4 +115,10 @@ Route::middleware('auth')->group(function () {
 
     // Route::post('/register', [UsersController::class, 'store'])
     //     ->name('users.store');
+
+    /**
+     * USER routes
+     */
+    Route::post('/user/favorite-series/{series}', [UsersController::class, 'favoriteSeries'])
+        ->name('user.favoriteSeries');
 });
