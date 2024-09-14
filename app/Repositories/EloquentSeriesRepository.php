@@ -8,6 +8,7 @@ use App\Models\Season;
 use App\Models\Series;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class EloquentSeriesRepository implements SeriesRepository
@@ -20,7 +21,22 @@ class EloquentSeriesRepository implements SeriesRepository
             $query->where('name', 'ILIKE', '%' . $name . '%');
         }
 
+        /**
+         * @var \App\Models\User &user
+         */
+        $user = Auth::user();
+
+        /**
+         * @var \Illuminate\Contracts\Pagination\LengthAwarePaginator &series
+         */
         $series = $query->paginate($itemsPerPage);
+
+        if ($user) {
+            $series->getCollection()->transform(function($series) use ($user) {
+                $series->isFavorite = $user->favoriteSeries()->where('series_id', $series->id)->exists();
+                return $series;
+            });
+        }
 
         return $series;
     }

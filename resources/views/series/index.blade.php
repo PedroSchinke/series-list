@@ -3,7 +3,6 @@
     <div class="d-flex align-items-center justify-content-between px-2">
         <h1 class="text-light fw-bold" style="font-family: 'Nunito', sans-serif">Catalog</h1>
         
-        @auth
         <a 
             href="{{ route('series.create') }}" 
             class="btn btn-dark btn-sm fw-bold d-flex justify-content-center align-items-center pb-auto" 
@@ -12,7 +11,6 @@
         >
             <i class='bx bx-plus' ></i>
         </a>
-        @endauth
     </div>
 
     <form action="{{ route('series.index') }}" method="GET" class="d-flex mb-3" style="height: 30px;">
@@ -47,17 +45,24 @@
         <ul id="series-list" class="d-flex flex-column gap-2 px-0">
             @foreach ($seriesArray as $series)
                 <li 
-                    id="series"
-                    class="d-flex justify-content-between align-items-center p-0" 
+                    class="d-flex justify-content-between align-items-center p-0 series" 
                     style="height: 60px; box-shadow: 0px 0px 3px 1px #252525; border-radius: 10px; padding: 7px 12px; cursor: pointer;"
                 >
-                    <a href="{{ route('seasons.index', $series->id) }}" class="text-decoration-none text-light w-100">
+                    <a id="series-card" href="{{ route('seasons.index', $series->id) }}" class="text-decoration-none text-light w-100">
                         <div class="d-flex gap-2 align-items-center">
                             <img 
                                 src="{{ asset($series->cover) }}" 
                                 alt="{{ $series->name }} cover"
                                 style="width: 100px; height: 60px; object-fit: cover; border-top-left-radius: 10px; border-bottom-left-radius: 10px;"
                             >
+                            <button
+                                data-series-id="{{ $series->id }}" 
+                                class="bg-transparent favorite-button"
+                                style="width: fit-content; height: fit-content;"
+                                title="{{ $series->isFavorite ? 'Remove from favorites' : 'Add to favorites'}}"
+                            >
+                                <i class='bx {{ $series->isFavorite ? 'bxs-star text-primary' : 'bx-star text-light'}} icon-favorite'></i>
+                            </button>
                             <div class="d-flex flex-column">
                                 {{ $series->name }}
                                 <div class="d-flex gap-1">
@@ -69,7 +74,6 @@
                         </div>
                     </a>
 
-                    @auth
                     <div id="series-buttons" class="d-flex gap-2 align-items-center h-100" style="display: none;">
                         <a 
                             href="{{ route('series.edit', $series->id) }}"
@@ -98,36 +102,30 @@
                             <i class='bx bxs-chevron-right text-secondary' ></i>
                         </a>
                     </div>
-                    @endauth
-
                 </li>
             @endforeach
         </ul>
 
-        <div id="series-nav-bar" class="d-flex justify-content-center align-items-center gap-3 pt-3 pb-3" style="width: 100%">
+        <div id="series-nav-bar" class="d-flex align-items-center justify-content-center gap-2">
             <a 
                 href="{{ $previousPageUrl }}" 
-                class="btn d-flex align-items-center justify-content-center text-decoration-none @if (!isset($previousPageUrl)) disabled @endif"
+                class="btn d-flex align-items-center justify-content-center text-decoration-none {{ !isset($previousPageUrl) ? 'disabled' : null }}"
                 style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
             >
                 <i class='bx bxs-left-arrow text-primary' title="Previous page"></i>
             </a>
-    
-            <div class="d-flex gap-2">
-                @for ($i = 1; $i <= $lastPage; $i++)
-                    <a 
-                        href="{{ $seriesArray->url($i) }}"
-                        class="text-decoration-none text-primary"
-                        style="@if ($i !== $currentPage) opacity: 50%; @endif"
-                    >
-                        {{ $i }}
-                    </a>
-                @endfor
-            </div>
-    
+            @for ($i = 1; $i <= $lastPage; $i++)
+                <a 
+                    href="{{ $seriesArray->url($i) }}"
+                    class="text-decoration-none text-primary"
+                    style="@if ($i !== $currentPage) opacity: 50%; @endif"
+                >
+                    {{ $i }}
+                </a>
+            @endfor
             <a 
                 href="{{ $nextPageUrl }}" 
-                class="btn d-flex align-items-center justify-content-center text-decoration-none @if (!isset($nextPageUrl)) disabled @endif"
+                class="btn d-flex align-items-center justify-content-center text-decoration-none {{ !isset($nextPageUrl) ? 'disabled' : null }}"
                 style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
             >
                 <i class='bx bxs-right-arrow text-primary' title="Next page"></i>
@@ -167,9 +165,18 @@
                 .then(series => {
                     const seriesList = document.getElementById('series-list');
                     seriesList.innerHTML = '';
+                    console.log(series)
+                    console.log(series['data'])
 
                     if (series['data'].length > 0) {
                         series['data'].forEach(series => {
+                            const categories = series.categories.map(category => {
+                                return `
+                                    <span class="bg-dark rounded" style="font-size: 0.5rem; padding: 1px 4px;">${category.name}</span>
+                                `;
+                            }).join('');
+                            const titleIsFavorite = series.isFavorite ? 'Remove from favorites' : 'Add to favorites';
+                            const iconIsFavorite = series.isFavorite ? 'bxs-star text-primary' : 'bx-star text-light';
                             const seriesItem = `
                                 <li 
                                     id="series"
@@ -183,11 +190,27 @@
                                                 alt="${series.name} cover"
                                                 style="width: 100px; height: 60px; object-fit: cover; border-top-left-radius: 10px; border-bottom-left-radius: 10px;"
                                             >
-                                            ${series.name}
+                                            <button 
+                                                id="favorite-button" 
+                                                data-series-id="${series.id}" 
+                                                class="bg-transparent d-flex"
+                                                style="width: fit-content; height: fit-content;"
+                                                title="${titleIsFavorite}"
+                                            >
+                                                <i 
+                                                    id="icon-favorite" 
+                                                    class='bx ${iconIsFavorite}'
+                                                ></i>
+                                            </button>
+                                            <div class="d-flex flex-column">
+                                                ${series.name}
+                                                <div class="d-flex gap-1">
+                                                    ${categories}
+                                                </div>
+                                            </div>
                                         </div>
                                     </a>
 
-                                    @auth
                                     <div id="series-buttons" class="d-flex gap-2 align-items-center h-100" style="display: none;">
                                         <a 
                                             href="/series/${series.id}/edit"
@@ -216,45 +239,50 @@
                                             <i class='bx bxs-chevron-right text-secondary' ></i>
                                         </a>
                                     </div>
-                                    @endauth
-
                                 </li>
                             `;
                             seriesList.innerHTML += seriesItem;
                         })
                         
                         const seriesNavBar = document.getElementById('series-nav-bar');
-                            seriesNavBar.innerHTML = '';
-
-                            seriesNavBar.innerHTML = `
+                        const navPages = series.links.map((page, index, arr) => {
+                            if (index === 0) {
+                                return `
+                                    <a 
+                                        href="${series.prev_page_url}" 
+                                        class="btn d-flex align-items-center justify-content-center text-decoration-none @if (!isset($previousPageUrl)) disabled @endif"
+                                        style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
+                                    >
+                                        <i class='bx bxs-left-arrow text-primary' title="Previous page"></i>
+                                    </a>
+                                `;
+                            } else if (index === arr.length - 1) {
+                                return `
+                                    <a 
+                                        href="${series.next_page_url}" 
+                                        class="btn d-flex align-items-center justify-content-center text-decoration-none @if (!isset($nextPageUrl)) disabled @endif"
+                                        style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
+                                    >
+                                        <i class='bx bxs-right-arrow text-primary' title="Next page"></i>
+                                    </a>
+                                `;
+                            }
+                            const pageStyle = index !== series.current_page ? 'opacity: 50%;' : null;
+                            return `
                                 <a 
-                                    href="${series.prev_page_url}" 
-                                    class="btn d-flex align-items-center justify-content-center text-decoration-none @if (!isset($previousPageUrl)) disabled @endif"
-                                    style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
+                                    href="${page.url}"
+                                    class="text-decoration-none text-primary"
+                                    style="${pageStyle}"
                                 >
-                                    <i class='bx bxs-left-arrow text-primary' title="Previous page"></i>
-                                </a>
-                        
-                                <div class="d-flex gap-2">
-                                    @for ($i = 1; $i <= $lastPage; $i++)
-                                        <a 
-                                            href="{{ $seriesArray->url($i) }}"
-                                            class="text-decoration-none text-primary"
-                                            style="@if ($i !== $currentPage) opacity: 50%; @endif"
-                                        >
-                                            {{ $i }}
-                                        </a>
-                                    @endfor
-                                </div>
-                        
-                                <a 
-                                    href="${series.next_page_url}" 
-                                    class="btn d-flex align-items-center justify-content-center text-decoration-none @if (!isset($nextPageUrl)) disabled @endif"
-                                    style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
-                                >
-                                    <i class='bx bxs-right-arrow text-primary' title="Next page"></i>
+                                    ${page.label}
                                 </a>
                             `;
+                        }).join('');
+                        seriesNavBar.innerHTML = `
+                            <div class="d-flex align-items-center gap-2">
+                                ${navPages}
+                            </div>
+                        `;
                     } else {
                         const noResultsMessage = `
                             <div class="d-flex justify-content-center mt-4">
@@ -267,6 +295,39 @@
                 .catch(error => console.log('Error:', error));
             }, 2000)
         })
+
+        document.querySelectorAll('.favorite-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                let seriesId = this.getAttribute('data-series-id');
+
+                fetch(`/user/favorite-series/${seriesId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        series_id: seriesId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    let icon = this.querySelector('.icon-favorite');
+                    if (data.favorite) {
+                        icon.classList.remove('bx-star', 'text-light');
+                        icon.classList.add('bxs-star', 'text-primary');
+                        this.title = 'Remove from favorites';
+                    } else {
+                        icon.classList.remove('bxs-star', 'text-primary');
+                        icon.classList.add('bx-star', 'text-light');
+                        this.title = 'Add to favorites';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
     </script>
 
 </x-layout>
