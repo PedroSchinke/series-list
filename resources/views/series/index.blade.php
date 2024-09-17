@@ -48,7 +48,7 @@
                     class="d-flex justify-content-between align-items-center p-0 series" 
                     style="height: 60px; box-shadow: 0px 0px 3px 1px #252525; border-radius: 10px; padding: 7px 12px; cursor: pointer;"
                 >
-                    <a id="series-card" href="{{ route('seasons.index', $series->id) }}" class="text-decoration-none text-light w-100">
+                    <a href="{{ route('seasons.index', $series->id) }}" class="text-decoration-none text-light w-100 series-card">
                         <div class="d-flex gap-2 align-items-center">
                             <img 
                                 src="{{ asset($series->cover) }}" 
@@ -61,7 +61,7 @@
                                 style="width: fit-content; height: fit-content;"
                                 title="{{ $series->isFavorite ? 'Remove from favorites' : 'Add to favorites'}}"
                             >
-                                <i class='bx {{ $series->isFavorite ? 'bxs-star text-primary' : 'bx-star text-light'}} icon-favorite'></i>
+                                <i class='bx {{ $series->isFavorite ? 'bxs-star text-primary' : 'bx-star text-light opacity-75'}} icon-favorite'></i>
                             </button>
                             <div class="d-flex flex-column">
                                 {{ $series->name }}
@@ -74,7 +74,7 @@
                         </div>
                     </a>
 
-                    <div id="series-buttons" class="d-flex gap-2 align-items-center h-100" style="display: none;">
+                    <div class="d-none gap-2 align-items-center h-100 series-buttons" style="display: none;">
                         <a 
                             href="{{ route('series.edit', $series->id) }}"
                             class="btn btn-sm d-flex align-items-center"
@@ -141,12 +141,6 @@
         </div>
     @endif
 
-    {{-- var seriesIndexUrl = "{{ route('series.index') }}";
-    var csrfToken = "{{ csrf_token() }}";
-    var lastPage = {{ $lastPage ?? 1 }};
-    var currentPage = {{ $currentPage ?? 1 }};
-    var isAuthenticated = @auth true @else false @endauth; --}}
-
     <script>
         let typingTimer;
 
@@ -176,31 +170,26 @@
                                 `;
                             }).join('');
                             const titleIsFavorite = series.isFavorite ? 'Remove from favorites' : 'Add to favorites';
-                            const iconIsFavorite = series.isFavorite ? 'bxs-star text-primary' : 'bx-star text-light';
+                            const iconIsFavorite = series.isFavorite ? 'bxs-star text-primary' : 'bx-star text-light opacity-75';
                             const seriesItem = `
                                 <li 
-                                    id="series"
-                                    class="d-flex justify-content-between align-items-center p-0" 
+                                    class="d-flex justify-content-between align-items-center p-0 series" 
                                     style="height: 60px; box-shadow: 0px 0px 3px 1px #252525; border-radius: 10px; padding: 7px 12px; cursor: pointer;"
                                 >
-                                    <a href="/series/${series.id}/seasons" class="text-decoration-none text-light w-100">
+                                    <a href="/series/${series.id}/seasons" class="text-decoration-none text-light w-100 series-card">
                                         <div class="d-flex gap-2 align-items-center">
                                             <img 
                                                 src="${series.cover}" 
                                                 alt="${series.name} cover"
                                                 style="width: 100px; height: 60px; object-fit: cover; border-top-left-radius: 10px; border-bottom-left-radius: 10px;"
                                             >
-                                            <button 
-                                                id="favorite-button" 
+                                            <button
                                                 data-series-id="${series.id}" 
-                                                class="bg-transparent d-flex"
+                                                class="bg-transparent favorite-button"
                                                 style="width: fit-content; height: fit-content;"
                                                 title="${titleIsFavorite}"
                                             >
-                                                <i 
-                                                    id="icon-favorite" 
-                                                    class='bx ${iconIsFavorite}'
-                                                ></i>
+                                                <i class='bx ${iconIsFavorite} icon-favorite'></i>
                                             </button>
                                             <div class="d-flex flex-column">
                                                 ${series.name}
@@ -211,7 +200,7 @@
                                         </div>
                                     </a>
 
-                                    <div id="series-buttons" class="d-flex gap-2 align-items-center h-100" style="display: none;">
+                                    <div class="d-none gap-2 align-items-center h-100 series-buttons" style="display: none;">
                                         <a 
                                             href="/series/${series.id}/edit"
                                             class="btn btn-sm d-flex align-items-center"
