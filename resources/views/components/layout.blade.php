@@ -24,8 +24,8 @@
     <script defer src="{{ mix('js/app.js') }}"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg justify-content-center navbar-dark bg-primary">
+        <div class="d-flex align-items-center justify-content-between w-75">
             <a 
                 href="{{ route('series.index') }}" 
                 class="btn btn-link text-white text-decoration-none"
