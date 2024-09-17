@@ -77,14 +77,13 @@ Route::middleware('auth')->group(function () {
     /**
      * SERIES routes
      */
-    Route::resource('/series', SeriesController::class)
-    ->except(['show']);
+    Route::resource('/series', SeriesController::class);
 
     /**
      * SEASONS routes
      */
-    Route::get('/series/{series}/seasons', [SeasonsController::class, 'index'])
-        ->name('seasons.index');
+    // Route::get('/series/{series}/seasons', [SeasonsController::class, 'index'])
+    //     ->name('seasons.index');
 
     /**
      * EPISODES routes

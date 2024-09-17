@@ -48,7 +48,7 @@
                     class="d-flex justify-content-between align-items-center p-0 series" 
                     style="height: 60px; box-shadow: 0px 0px 3px 1px #252525; border-radius: 10px; padding: 7px 12px; cursor: pointer;"
                 >
-                    <a href="{{ route('seasons.index', $series->id) }}" class="text-decoration-none text-light w-100 series-card">
+                    <a href="{{ route('series.show', $series->id) }}" class="text-decoration-none text-light w-100 series-card">
                         <div class="d-flex gap-2 align-items-center">
                             <img 
                                 src="{{ asset($series->cover) }}" 
@@ -176,7 +176,7 @@
                                     class="d-flex justify-content-between align-items-center p-0 series" 
                                     style="height: 60px; box-shadow: 0px 0px 3px 1px #252525; border-radius: 10px; padding: 7px 12px; cursor: pointer;"
                                 >
-                                    <a href="/series/${series.id}/seasons" class="text-decoration-none text-light w-100 series-card">
+                                    <a href="/series/${series.id}" class="text-decoration-none text-light w-100 series-card">
                                         <div class="d-flex gap-2 align-items-center">
                                             <img 
                                                 src="${series.cover}" 
