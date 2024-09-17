@@ -100,5 +100,9 @@
         <button type="submit" class="btn btn-primary mt-3">Save</button>
     </form>
 
+    <script>
+        var categories = [];
+    </script>
+
     <script src="{{ mix('js/categories-select.js') }}"></script>
 </x-layout>
