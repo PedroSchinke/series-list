@@ -21,6 +21,21 @@ class EloquentSeriesRepository implements SeriesRepository
             $query->where('name', 'ILIKE', '%' . $name . '%');
         }
 
+        if ($request->input('favorites') == 1) {
+            $query->whereHas('favoritedBy', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+    
+        if ($request->filled('categories')) {
+            $selectedCategories = $request->input('categories');
+            $categoryIdsArray = explode(',', $selectedCategories);
+    
+            $query->whereHas('categories', function ($q) use ($categoryIdsArray) {
+                $q->whereIn('categories.id', $categoryIdsArray);
+            });
+        }
+
         /**
          * @var \App\Models\User &user
          */

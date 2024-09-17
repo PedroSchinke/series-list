@@ -26,7 +26,13 @@ class SeriesController extends Controller
     {
         $series = $this->seriesService->getAllSeriesWithPagesData($request);
 
+        $categories = Category::all();
+
         $successMessage = $request->session()->get('message.success');
+
+        $isFavoritesSelected = $request->input('favorites') == 1;
+
+        $requestCategories = $request->input('categories');
 
         // $request->session()->forget('message.success'); -> in case of $request->session->put()
 
@@ -42,7 +48,10 @@ class SeriesController extends Controller
             'previousPageUrl' => $series['previousPageUrl'],
             'lastPage' => $series['lastPage'],
             'currentPage' => $series['currentPage'],
-            'name' => $request->input('name', '')
+            'name' => $request->input('name', ''),
+            'isFavoritesSelected' => $isFavoritesSelected,
+            'requestCategories' => $requestCategories,
+            'categories' => $categories
         ]);
         // OR => return view('series-list')->with('series', $series);
     }
@@ -64,7 +73,7 @@ class SeriesController extends Controller
         $seasons = $series->seasons()->with('episodes')->get();
         // OR => $seasons = Season::query()->with('episodes')->where('series_id', $series)->get(); 
         // NEEDS to receive int $series as a parameter
-        
+
         $successMessage = $request->session()->get('message.success');
         $season = $series->seasons()->where('number', 1)->first();
         $episodes = $season->episodes;

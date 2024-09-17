@@ -3,6 +3,10 @@ html, body {
   height: 100%;
 }
 
+.text-light-m {
+  color: #bcbcbc !important;
+}
+
 button i {
   pointer-events: none;
 }
@@ -24,6 +28,25 @@ button i {
   border: none !important;
   outline: 0;
   box-shadow: none !important;
+}
+
+.dark-select {
+  color: #bcbcbc !important;
+  border: none !important;
+}
+
+.dark-select:focus {
+  border: none !important;
+  outline: 0;
+  box-shadow: none !important;
+}
+
+#favorite-toggle.selected {
+  background-color: #ab1515 !important;
+}
+
+#favorite-toggle.selected span {
+  color: #ededed !important;
 }
 
 .no-focus:focus {

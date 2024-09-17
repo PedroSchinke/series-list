@@ -13,7 +13,7 @@
         </a>
     </div>
 
-    <form action="{{ route('series.index') }}" method="GET" class="d-flex mb-3" style="height: 30px;">
+    <form action="{{ route('series.index') }}" method="GET" class="d-flex mb-2" style="height: 30px;">
         <input 
             id="seriesSearch"
             type="text" 
@@ -40,6 +40,46 @@
             <i class='bx bx-search' style="font-size: 1.1rem; font-weight: bold; margin-right: 3px"></i>
         </button>
     </form>
+
+    <section class="mb-2" style="height: 25px">
+        <form action="{{ route('series.index') }}" method="GET" class="d-flex justify-content-between h-100">
+            <div class="d-flex align-items-center justify-content-center gap-2 h-100">
+                <button 
+                    type="button" 
+                    id="favorite-toggle" 
+                    class="btn d-flex align-items-center text-light bg-dark rounded-4 h-100"
+                    style="padding: 7px 15px; border: none;"
+                    data-selected="{{ $isFavoritesSelected ? 'true' : 'false' }}"  
+                >
+                    <span id="favorite-label" class="text-light-m" style="font-size: 0.7rem;">Favorites</span>
+                </button>
+                <input type="hidden" name="favorites" id="favorites-selected" value="{{ $isFavoritesSelected ? '1' : '0' }}">
+
+                <select 
+                    id="categories"
+                    class="bg-dark text-gray-900 rounded-4 border-0 h-100 dark-select"
+                    style="cursor: pointer; font-size: 0.7rem; width: fit-content; padding: 0 30px 0 12px;"
+                >
+                    <option id="default-option" class="bg-dark fst-italic rounded">Categories (max.4)</option>
+                    @forEach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                <input type="hidden" name="categories" id="selected-categories">
+    
+                <div id="categories-selected-container" class="d-flex align-items-center gap-1" style="font-size: 0.7rem"></div>
+            </div>
+
+            <button 
+                type="submit" 
+                class="btn d-flex align-items-center bg-primary text-light rounded-4 search-button"
+                style="font-size: 0.7rem; padding: 0 8px;"
+            >
+                <span>Filter</span>
+                <i class='bx bx-filter-alt'></i>
+            </button>
+        </form>
+    </section>
 
     @if (count($seriesArray) > 0)
         <ul id="series-list" class="d-flex flex-column gap-2 px-0">
@@ -95,7 +135,7 @@
                         </form>
 
                         <a 
-                            href="{{ route('seasons.index', $series->id) }}"
+                            href="{{ route('series.show', $series->id) }}"
                             class="d-flex align-items-center justify-content-center h-100 bg-primary text-decoration-none"  
                             style="width: 20px;border-top-right-radius: 10px; border-bottom-right-radius: 10px;"
                         >
@@ -106,7 +146,7 @@
             @endforeach
         </ul>
 
-        <div id="series-nav-bar" class="d-flex align-items-center justify-content-center gap-2">
+        <section id="series-nav-bar" class="d-flex align-items-center justify-content-center gap-2">
             <a 
                 href="{{ $previousPageUrl }}" 
                 class="btn d-flex align-items-center justify-content-center text-decoration-none {{ !isset($previousPageUrl) ? 'disabled' : null }}"
@@ -130,7 +170,7 @@
             >
                 <i class='bx bxs-right-arrow text-primary' title="Next page"></i>
             </a>
-        </div>
+        </section>
     @elseif (request()->has('name'))
         <div class="d-flex justify-content-center mt-4">
             <p class="text-light">No series with the name '{{ request('name') }}' were found</p>
@@ -221,7 +261,7 @@
                                         </form>
 
                                         <a 
-                                            href="/seasons/${series.id}"
+                                            href="/series/${series.id}"
                                             class="d-flex align-items-center justify-content-center h-100 bg-primary text-decoration-none"  
                                             style="width: 20px;border-top-right-radius: 10px; border-bottom-right-radius: 10px;"
                                         >
@@ -268,9 +308,9 @@
                             `;
                         }).join('');
                         seriesNavBar.innerHTML = `
-                            <div class="d-flex align-items-center gap-2">
+                            <section class="d-flex align-items-center gap-2">
                                 ${navPages}
-                            </div>
+                            </section>
                         `;
                     } else {
                         const noResultsMessage = `
@@ -305,18 +345,46 @@
                 .then(data => {
                     let icon = this.querySelector('.icon-favorite');
                     if (data.favorite) {
-                        icon.classList.remove('bx-star', 'text-light');
+                        icon.classList.remove('bx-star', 'text-light', 'opacity-75');
                         icon.classList.add('bxs-star', 'text-primary');
                         this.title = 'Remove from favorites';
                     } else {
                         icon.classList.remove('bxs-star', 'text-primary');
-                        icon.classList.add('bx-star', 'text-light');
+                        icon.classList.add('bx-star', 'text-light', 'opacity-75');
                         this.title = 'Add to favorites';
                     }
                 })
                 .catch(error => console.error('Error:', error));
             });
         });
+
+        const favoriteToggle = document.getElementById('favorite-toggle');
+        const favoritesInput = document.getElementById('favorites-selected');
+
+        if (favoritesInput.value == 1) {
+            favoriteToggle.classList.add('selected');
+        }
+
+        favoriteToggle.addEventListener('click', function() {
+            if (favoritesInput.value == 1) {
+                this.classList.remove('selected');
+                this.setAttribute('data-selected', 'false');
+                favoritesInput.value = 0;
+            } else {
+                this.classList.add('selected');
+                this.setAttribute('data-selected', 'true');
+                favoritesInput.value = 1;
+            }
+        });
     </script>
 
+    @php
+        $requestCategoriesArray = $requestCategories ? array_map('intval', explode(',', $requestCategories)) : [];
+    @endphp
+
+    <script>
+        var categories = @json($requestCategoriesArray);
+    </script>
+
+    <script src="{{ mix('js/categories-select.js') }}"></script>
 </x-layout>
