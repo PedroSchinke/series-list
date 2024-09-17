@@ -43,6 +43,7 @@ button i {
 }
 
 .series {
+    position: relative;
     transition: transform 0.5s ease, box-shadow 0.3s ease;
 }
 
@@ -51,15 +52,15 @@ button i {
     box-shadow: 0px 0px 10px 3px #252525;
 }
 
-#series-buttons {
+.series-buttons {
     display: none !important;
 }
 
-.series:hover #series-buttons {
+.series:hover .series-buttons {
     display: flex !important;
 }
 
-#series-card {
+.series-card {
     position: relative;
 }
 
@@ -80,11 +81,12 @@ button i {
 
 .series-icon-button {
     color: $light;
+    pointer-events: fill;
 }
 
 .series-icon-button:hover {
     color: $primary !important;
-    transition: 0.15s;
+    transition: 0.25s;
 }
 
 .login-button:hover {
