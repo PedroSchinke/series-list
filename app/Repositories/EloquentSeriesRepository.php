@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class EloquentSeriesRepository implements SeriesRepository
 {
-    public function getAll(int $itemsPerPage, Request $request): LengthAwarePaginator
+    public function getAll(Request $request): LengthAwarePaginator
     {
         $query = Series::query();
 
@@ -44,7 +44,7 @@ class EloquentSeriesRepository implements SeriesRepository
         /**
          * @var \Illuminate\Contracts\Pagination\LengthAwarePaginator &series
          */
-        $series = $query->paginate($itemsPerPage);
+        $series = $query->paginate(4);
 
         if ($user) {
             $series->getCollection()->transform(function($series) use ($user) {

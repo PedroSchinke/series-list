@@ -8,6 +8,7 @@ use App\Repositories\EpisodesRepository;
 use App\Repositories\SeasonsRepository;
 use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class SeriesManagementService
@@ -27,22 +28,11 @@ class SeriesManagementService
         $this->episodesRepository = $episodesRepository;
     }
 
-    public function getAllSeriesWithPagesData(Request $request): array
+    public function getAllSeriesWithPagesData(Request $request): LengthAwarePaginator
     {
-        $series = $this->seriesRepository->getAll(4, $request);
+        $series = $this->seriesRepository->getAll($request);
 
-        $nextPageUrl = $series->nextPageUrl();
-        $previousPageUrl = $series->previousPageUrl();
-        $lastPage = $series->lastPage();
-        $currentPage = $series->currentPage();
-
-        return [
-            'series' => $series,
-            'nextPageUrl' => $nextPageUrl,
-            'previousPageUrl' => $previousPageUrl,
-            'lastPage' => $lastPage,
-            'currentPage' => $currentPage 
-        ];
+        return $series;
     }
 
     public function storeSeries(SeriesFormRequest $request): Series

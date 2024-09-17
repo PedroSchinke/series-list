@@ -1,5 +1,4 @@
 <x-layout title="SeriesFlix" :successMessage="$successMessage">
-
     <div class="d-flex align-items-center justify-content-between px-2">
         <h1 class="text-light fw-bold" style="font-family: 'Nunito', sans-serif">Catalog</h1>
         
@@ -148,24 +147,24 @@
 
         <section id="series-nav-bar" class="d-flex align-items-center justify-content-center gap-2">
             <a 
-                href="{{ $previousPageUrl }}" 
-                class="btn d-flex align-items-center justify-content-center text-decoration-none {{ !isset($previousPageUrl) ? 'disabled' : null }}"
+                href="{{ $seriesArray->previousPageUrl() }}" 
+                class="btn d-flex align-items-center justify-content-center text-decoration-none {{ $seriesArray->previousPageUrl() === null ? 'disabled' : null }}"
                 style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
             >
                 <i class='bx bxs-left-arrow text-primary' title="Previous page"></i>
             </a>
-            @for ($i = 1; $i <= $lastPage; $i++)
+            @for ($i = 1; $i <= $seriesArray->lastPage(); $i++)
                 <a 
                     href="{{ $seriesArray->url($i) }}"
                     class="text-decoration-none text-primary"
-                    style="@if ($i !== $currentPage) opacity: 50%; @endif"
+                    style="@if ($i !== $seriesArray->currentPage()) opacity: 50%; @endif"
                 >
                     {{ $i }}
                 </a>
             @endfor
             <a 
-                href="{{ $nextPageUrl }}" 
-                class="btn d-flex align-items-center justify-content-center text-decoration-none {{ !isset($nextPageUrl) ? 'disabled' : null }}"
+                href="{{ $seriesArray->nextPageUrl() }}" 
+                class="btn d-flex align-items-center justify-content-center text-decoration-none {{ $seriesArray->nextPageUrl() === null ? 'disabled' : null }}"
                 style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
             >
                 <i class='bx bxs-right-arrow text-primary' title="Next page"></i>
@@ -199,8 +198,7 @@
                 .then(series => {
                     const seriesList = document.getElementById('series-list');
                     seriesList.innerHTML = '';
-                    console.log(series)
-                    console.log(series['data'])
+                    console.log(series);
 
                     if (series['data'].length > 0) {
                         series['data'].forEach(series => {
@@ -275,11 +273,13 @@
                         
                         const seriesNavBar = document.getElementById('series-nav-bar');
                         const navPages = series.links.map((page, index, arr) => {
+                            const isPrevPageDisabled = series.prev_page_url ? null : 'disabled';
+                            const isNextPageDisabled = series.next_page_url ? null : 'disabled';
                             if (index === 0) {
                                 return `
                                     <a 
                                         href="${series.prev_page_url}" 
-                                        class="btn d-flex align-items-center justify-content-center text-decoration-none @if (!isset($previousPageUrl)) disabled @endif"
+                                        class="btn d-flex align-items-center justify-content-center text-decoration-none ${isPrevPageDisabled}"
                                         style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
                                     >
                                         <i class='bx bxs-left-arrow text-primary' title="Previous page"></i>
@@ -289,7 +289,7 @@
                                 return `
                                     <a 
                                         href="${series.next_page_url}" 
-                                        class="btn d-flex align-items-center justify-content-center text-decoration-none @if (!isset($nextPageUrl)) disabled @endif"
+                                        class="btn d-flex align-items-center justify-content-center text-decoration-none ${isNextPageDisabled}"
                                         style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
                                     >
                                         <i class='bx bxs-right-arrow text-primary' title="Next page"></i>

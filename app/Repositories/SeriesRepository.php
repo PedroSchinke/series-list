@@ -9,6 +9,6 @@ use Illuminate\Http\Request;
 
 interface SeriesRepository
 {
-    public function getAll(int $itemsPerPage, Request $request): LengthAwarePaginator;
+    public function getAll(Request $request): LengthAwarePaginator;
     public function add(SeriesFormRequest $request): Series;
 }

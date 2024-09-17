@@ -37,17 +37,13 @@ class SeriesController extends Controller
         // $request->session()->forget('message.success'); -> in case of $request->session->put()
 
         if ($request->ajax()) {
-            return response()->json($series['series']->withQueryString());
+            return response()->json($series->withQueryString());
         }
 
         return view('series.index', [
             'title' => 'Series',
-            'seriesArray' => $series['series']->withQueryString(),
+            'seriesArray' => $series->withQueryString(),
             'successMessage' => $successMessage,
-            'nextPageUrl' => $series['nextPageUrl'],
-            'previousPageUrl' => $series['previousPageUrl'],
-            'lastPage' => $series['lastPage'],
-            'currentPage' => $series['currentPage'],
             'name' => $request->input('name', ''),
             'isFavoritesSelected' => $isFavoritesSelected,
             'requestCategories' => $requestCategories,
