@@ -15,6 +15,7 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
 mix
     .sass('resources/css/styles.scss', 'public/css')
     .js('resources/js/app.js', 'public/js')
+    .js('resources/js/categories-select.js', 'public/js')
     .webpackConfig({
         plugins: [new LiveReloadPlugin()]
     })
