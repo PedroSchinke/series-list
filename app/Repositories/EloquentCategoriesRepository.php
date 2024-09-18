@@ -8,7 +8,7 @@ class EloquentCategoriesRepository implements CategoriesRepository
 {
     public function getAll()
     {
-        $categories = Category::getAll();
+        $categories = Category::all();
 
         return $categories;
     }
