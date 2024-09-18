@@ -3,12 +3,20 @@
 namespace App\Repositories;
 
 use App\Models\Episode;
+use App\Models\Season;
 use App\Models\Series;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class EloquentEpisodesRepository implements EpisodesRepository
 {
+    public function get(Season $season)
+    {
+        $episodes = Episode::where('season_id', $season->id)->get();
+
+        return $episodes;
+    }
+
     public function update(Request $request, int $seasonId)
     {
         DB::transaction(function () use($request, $seasonId) {

@@ -17,16 +17,13 @@ class EpisodesController extends Controller
 
     public function index(Season $season, Request $request)
     {
-        $episodes = $season->episodes;
-        $series = $season->series;
+        $episodes = $this->repository->get($season);
 
         if ($request->ajax()) {
-            $episodes = $season->episodes;
-
             return response()->json($episodes);
         }
 
-        return view('episodes.index', compact('episodes', 'season', 'series'));
+        return view('episodes.index', compact('episodes'));
     }
 
     public function update(Season $season, Request $request)
