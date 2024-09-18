@@ -15,10 +15,16 @@ class EpisodesController extends Controller
         $this->repository = $repository;
     }
 
-    public function index(Season $season)
+    public function index(Season $season, Request $request)
     {
         $episodes = $season->episodes;
         $series = $season->series;
+
+        if ($request->ajax()) {
+            $episodes = $season->episodes;
+
+            return response()->json($episodes);
+        }
 
         return view('episodes.index', compact('episodes', 'season', 'series'));
     }

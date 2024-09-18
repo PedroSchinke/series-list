@@ -3,6 +3,7 @@
     "/js/categories-select.js": "/js/categories-select.js",
     "/js/favorites-filter-button.js": "/js/favorites-filter-button.js",
     "/js/add-to-favorites-button.js": "/js/add-to-favorites-button.js",
+    "/js/seasons-select.js": "/js/seasons-select.js",
     "/css/app.css": "/css/app.css",
     "/css/styles.css": "/css/styles.css"
 }
