@@ -12,42 +12,41 @@
         </a>
     </div>
 
-    <form action="{{ route('series.index') }}" method="GET" class="d-flex mb-2" style="height: 30px;">
-        <input 
-            id="seriesSearch"
-            type="text" 
-            name="name" id="name" 
-            class="form-control w-100 bg-dark text-light dark-input" 
-            style="
-                height: fit-content; 
-                font-size: 12px; 
-                border-top-left-radius: 15px; 
-                border-bottom-left-radius: 15px;
-                border-top-right-radius: 0;
-                border-bottom-right-radius: 0;
-                border: none;
-            "
-            placeholder="Search for a title..."
-            value="{{ $name }}"
-        >
-        <button 
-            type="submit" 
-            class="btn btn-dark bg-primary d-flex justify-content-center align-items-center search-button"
-            style="border-radius: 20px; border-top-left-radius: 0; border-bottom-left-radius: 0;"
-            title="Search"
-        >
-            <i class='bx bx-search' style="font-size: 1.1rem; font-weight: bold; margin-right: 3px"></i>
-        </button>
-    </form>
-
-    <section class="mb-2" style="height: 25px">
-        <form action="{{ route('series.index') }}" method="GET" class="d-flex justify-content-between h-100">
-            <div class="d-flex align-items-center justify-content-center gap-2 h-100">
+    <form action="{{ route('series.index') }}" method="GET" class="d-flex flex-column gap-1 mb-2" style="height: 60px;">
+        <div class="d-flex align-items-center w-100 h-50">
+            <input 
+                id="seriesSearch"
+                type="text" 
+                name="name" id="name" 
+                class="form-control w-100 bg-dark text-light dark-input" 
+                style="
+                    height: fit-content; 
+                    font-size: 12px; 
+                    border-top-left-radius: 15px; 
+                    border-bottom-left-radius: 15px;
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                    border: none;
+                "
+                placeholder="Search for a title..."
+                value="{{ $name }}"
+            >
+            <button 
+                type="submit" 
+                class="btn btn-dark bg-primary d-flex justify-content-center align-items-center search-button h-100"
+                style="border-radius: 20px; border-top-left-radius: 0; border-bottom-left-radius: 0;"
+                title="Search"
+            >
+                <i class='bx bx-search' style="font-size: 1.1rem; font-weight: bold; margin-right: 3px"></i>
+            </button>
+        </div>
+        <div class="d-flex align-items-center justify-content-between h-50">
+            <div class="d-flex align-items-center justify-content-center gap-2 h-75">
                 <button 
                     type="button" 
                     id="favorite-toggle" 
                     class="btn d-flex align-items-center text-light bg-dark rounded-4 h-100"
-                    style="padding: 7px 15px; border: none;"
+                    style="padding: 7px 10px; border: none;"
                     data-selected="{{ $isFavoritesSelected ? 'true' : 'false' }}"  
                 >
                     <span id="favorite-label" class="text-light-m" style="font-size: 0.7rem;">Favorites</span>
@@ -57,7 +56,7 @@
                 <select 
                     id="categories"
                     class="bg-dark text-gray-900 rounded-4 border-0 h-100 dark-select"
-                    style="cursor: pointer; font-size: 0.7rem; width: fit-content; padding: 0 30px 0 12px;"
+                    style="cursor: pointer; font-size: 0.7rem; width: fit-content; padding: 0 25px 0 10px;"
                 >
                     <option id="default-option" class="bg-dark fst-italic rounded">Categories (max.4)</option>
                     @forEach ($categories as $category)
@@ -71,14 +70,14 @@
 
             <button 
                 type="submit" 
-                class="btn d-flex align-items-center bg-primary text-light rounded-4 search-button"
+                class="btn d-flex align-items-center bg-primary text-light rounded-4 search-button h-75"
                 style="font-size: 0.7rem; padding: 0 8px;"
             >
                 <span>Filter</span>
                 <i class='bx bx-filter-alt'></i>
             </button>
-        </form>
-    </section>
+        </div>
+    </form>
 
     @if (count($seriesArray) > 0)
         <ul id="series-list" class="d-flex flex-column gap-2 px-0">
@@ -149,7 +148,7 @@
             <a 
                 href="{{ $seriesArray->previousPageUrl() }}" 
                 class="btn d-flex align-items-center justify-content-center text-decoration-none {{ $seriesArray->previousPageUrl() === null ? 'disabled' : null }}"
-                style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
+                style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none; margin-top: 2px;"
             >
                 <i class='bx bxs-left-arrow text-primary' title="Previous page"></i>
             </a>
@@ -165,7 +164,7 @@
             <a 
                 href="{{ $seriesArray->nextPageUrl() }}" 
                 class="btn d-flex align-items-center justify-content-center text-decoration-none {{ $seriesArray->nextPageUrl() === null ? 'disabled' : null }}"
-                style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
+                style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none; margin-top: 2px;"
             >
                 <i class='bx bxs-right-arrow text-primary' title="Next page"></i>
             </a>
@@ -280,7 +279,7 @@
                                     <a 
                                         href="${series.prev_page_url}" 
                                         class="btn d-flex align-items-center justify-content-center text-decoration-none ${isPrevPageDisabled}"
-                                        style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
+                                        style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none; margin-top: 2px;"
                                     >
                                         <i class='bx bxs-left-arrow text-primary' title="Previous page"></i>
                                     </a>
@@ -290,7 +289,7 @@
                                     <a 
                                         href="${series.next_page_url}" 
                                         class="btn d-flex align-items-center justify-content-center text-decoration-none ${isNextPageDisabled}"
-                                        style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none;"
+                                        style="height: 20px; font-size: 12px; height: 20px; padding: 0px 6px; border-radius: 6px; border: none; margin-top: 2px;"
                                     >
                                         <i class='bx bxs-right-arrow text-primary' title="Next page"></i>
                                     </a>
