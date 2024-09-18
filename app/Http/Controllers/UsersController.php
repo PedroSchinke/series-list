@@ -33,11 +33,9 @@ class UsersController
         $user = Auth::user();
         
         if ($user->favoriteSeries()->where('series_id', $seriesId)->exists()) {
-            // Se já está favoritada, remove a série dos favoritos
             $user->favoriteSeries()->detach($seriesId);
             return response()->json(['favorite' => false]);
         } else {
-            // Se não está favoritada, adiciona a série aos favoritos
             $user->favoriteSeries()->attach($seriesId);
             return response()->json(['favorite' => true]);
         }
