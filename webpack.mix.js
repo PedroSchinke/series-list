@@ -16,6 +16,8 @@ mix
     .sass('resources/css/styles.scss', 'public/css')
     .js('resources/js/app.js', 'public/js')
     .js('resources/js/categories-select.js', 'public/js')
+    .js('resources/js/favorites-filter-button.js', 'public/js')
+    .js('resources/js/add-to-favorites-button.js', 'public/js')
     .webpackConfig({
         plugins: [new LiveReloadPlugin()]
     })
