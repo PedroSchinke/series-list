@@ -7,12 +7,8 @@ document.querySelectorAll('.favorite-button').forEach(button => {
         fetch(`/user/favorite-series/${seriesId}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
-            body: JSON.stringify({
-                series_id: seriesId
-            })
         })
         .then(response => response.json())
         .then(data => {

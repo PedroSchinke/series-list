@@ -10,12 +10,8 @@ document.querySelectorAll('.favorite-button').forEach(function (button) {
     fetch("/user/favorite-series/".concat(seriesId), {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-      },
-      body: JSON.stringify({
-        series_id: seriesId
-      })
+      }
     }).then(function (response) {
       return response.json();
     }).then(function (data) {
