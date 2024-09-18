@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\CategoriesRepository;
+use App\Repositories\EloquentCategoriesRepository;
 use App\Repositories\EloquentEpisodesRepository;
 use App\Repositories\EloquentSeasonsRepository;
 use App\Repositories\EloquentSeriesRepository;
@@ -15,7 +17,8 @@ class RepositoriesProvider extends ServiceProvider
     public array $bindings = [
         SeriesRepository::class => EloquentSeriesRepository::class,
         SeasonsRepository::class => EloquentSeasonsRepository::class,
-        EpisodesRepository::class => EloquentEpisodesRepository::class
+        EpisodesRepository::class => EloquentEpisodesRepository::class,
+        CategoriesRepository::class => EloquentCategoriesRepository::class
     ];
 
     /**

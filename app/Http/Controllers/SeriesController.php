@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Events\SeriesCreated as EventSeriesCreated;
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Category;
 use App\Models\Series;
+use App\Repositories\CategoriesRepository;
 use App\Repositories\SeriesRepository;
 use App\Services\SeriesManagementService;
 use Illuminate\Http\Request;
@@ -13,20 +13,22 @@ use Illuminate\Http\Request;
 class SeriesController extends Controller
 {
     private SeriesRepository $repository;
+    private CategoriesRepository $categoriesRepository;
     private SeriesManagementService $seriesService;
 
-    public function __construct(SeriesRepository $repository, SeriesManagementService $seriesService)
+    public function __construct(SeriesRepository $repository, CategoriesRepository $categoriesRepository, SeriesManagementService $seriesService)
     {
         $this->repository = $repository;
+        $this->categoriesRepository = $categoriesRepository;
         $this->seriesService = $seriesService;
-        $this->middleware('auth')->except('index');
+        $this->middleware('auth');
     }
 
     public function index(Request $request) 
     {
         $series = $this->seriesService->getAllSeriesWithPagesData($request);
 
-        $categories = Category::all();
+        $categories = $this->categoriesRepository->getAll();
 
         $successMessage = $request->session()->get('message.success');
 
@@ -70,16 +72,17 @@ class SeriesController extends Controller
         // OR => $seasons = Season::query()->with('episodes')->where('series_id', $series)->get(); 
         // NEEDS to receive int $series as a parameter
 
-        $successMessage = $request->session()->get('message.success');
         $season = $series->seasons()->where('number', 1)->first();
         $episodes = $season->episodes;
+        
+        $successMessage = $request->session()->get('message.success');
 
         return view('series.show', compact('seasons', 'series', 'successMessage', 'episodes'));
     }
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = $this->categoriesRepository->getAll();
 
         return view('series.create', [
             'categories' => $categories
@@ -124,7 +127,7 @@ class SeriesController extends Controller
 
     public function edit(Series $series)
     {
-        $categories = Category::all();
+        $categories = $this->categoriesRepository->getAll();
 
         return view('series.edit', [
             'series' => $series,
