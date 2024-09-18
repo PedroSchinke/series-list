@@ -45,9 +45,8 @@
                 <button 
                     type="button" 
                     id="favorite-toggle" 
-                    class="btn d-flex align-items-center text-light bg-dark rounded-4 h-100"
+                    class="btn d-flex align-items-center text-light bg-dark rounded-4 h-100 {{ $isFavoritesSelected ? 'selected' : null }}"
                     style="padding: 7px 10px; border: none;"
-                    data-selected="{{ $isFavoritesSelected ? 'true' : 'false' }}"  
                 >
                     <span id="favorite-label" class="text-light-m" style="font-size: 0.7rem;">Favorites</span>
                 </button>
@@ -360,18 +359,12 @@
         const favoriteToggle = document.getElementById('favorite-toggle');
         const favoritesInput = document.getElementById('favorites-selected');
 
-        if (favoritesInput.value == 1) {
-            favoriteToggle.classList.add('selected');
-        }
-
         favoriteToggle.addEventListener('click', function() {
             if (favoritesInput.value == 1) {
                 this.classList.remove('selected');
-                this.setAttribute('data-selected', 'false');
                 favoritesInput.value = 0;
             } else {
                 this.classList.add('selected');
-                this.setAttribute('data-selected', 'true');
                 favoritesInput.value = 1;
             }
         });
