@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\SeriesFormRequest;
 use App\Models\Episode;
 use App\Models\Season;
 use App\Models\Series;
@@ -37,13 +38,14 @@ class EloquentEpisodesRepository implements EpisodesRepository
         });
     }
 
-    public function increaseEpisodes(Series $series, int $episodes_per_season, int $newEpisodesPerSeason)
+    public function increaseEpisodes(Series $series, SeriesFormRequest $request)
     {
         $seasons = $series->seasons()->get();
+        $newEpisodesPerSeason = $request->input('episodes_per_season');
 
         $episodes = [];
         foreach ($seasons as $season) {
-            for ($i = $episodes_per_season + 1; $i <= $newEpisodesPerSeason; $i++) {
+            for ($i = $series->episodes_per_season + 1; $i <= $newEpisodesPerSeason; $i++) {
                 $episodes[] = [
                     'season_id' => $season->id,
                     'number' => $i,
@@ -57,10 +59,12 @@ class EloquentEpisodesRepository implements EpisodesRepository
         ]);
     }
 
-    public function decreaseEpisodes(Series $series, int $episodes_per_season, int $newEpisodesPerSeason)
+    public function decreaseEpisodes(Series $series, SeriesFormRequest $request)
     {
+        $newEpisodesPerSeason = $request->input('episodes_per_season');
+
         $episodesToDelete = [];
-        for ($i = $episodes_per_season; $i > $newEpisodesPerSeason; $i--) { 
+        for ($i = $series->episodes_per_season; $i > $newEpisodesPerSeason; $i--) { 
             $episodesToDelete[] = $i;
         }
 
