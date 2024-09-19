@@ -4,9 +4,11 @@ document.getElementById('seriesSearch').addEventListener('input', function() {
     clearTimeout(typingTimer);
 
     const seriesName = this.value;
+    const favoritesSelected = document.getElementById('favorites-selected').value;
+    const selectedCategories = document.getElementById('selected-categories').value;
 
     typingTimer = setTimeout(function() {
-        fetch(`/series?name=${seriesName}`, {
+        fetch(`/series?name=${seriesName}&favorites=${favoritesSelected}&categories=${selectedCategories}`, {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             }

@@ -6,8 +6,10 @@ var typingTimer;
 document.getElementById('seriesSearch').addEventListener('input', function () {
   clearTimeout(typingTimer);
   var seriesName = this.value;
+  var favoritesSelected = document.getElementById('favorites-selected').value;
+  var selectedCategories = document.getElementById('selected-categories').value;
   typingTimer = setTimeout(function () {
-    fetch("/series?name=".concat(seriesName), {
+    fetch("/series?name=".concat(seriesName, "&favorites=").concat(favoritesSelected, "&categories=").concat(selectedCategories), {
       headers: {
         'X-Requested-With': 'XMLHttpRequest'
       }
