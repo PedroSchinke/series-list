@@ -31,7 +31,8 @@ class SeriesFormRequest extends FormRequest
             'name' => ['required', 'min:3'],
             'seasons_qty' => ['required', 'integer', 'min:1', 'max:30'],
             'episodes_per_season' => ['required', 'integer', 'min:1', 'max:30'],
-            'cover' => ['file', 'image']
+            'cover' => ['file', 'image'],
+            'categories' => ['required', 'string', 'max:7']
         ];
     }
 
@@ -49,7 +50,10 @@ class SeriesFormRequest extends FormRequest
             'episodes_per_season.min' => "The field 'episodes per season' must be at least :min",
             'episodes_per_season.max' => "The field 'episodes per season' must not exceed :max",
             'cover.file' => "The field 'cover' must be a file",
-            'cover.image' => "The 'cover' file must be an image"
+            'cover.image' => "The 'cover' file must be an image",
+            'categories.required' => 'You must choose at least one category',
+            'categories.string' => "The 'categories' field must be of type string",
+            'categories.max' => "You can choose a maximum of four categories",
         ];
     }
 }
