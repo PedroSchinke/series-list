@@ -35,26 +35,26 @@
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <label for="seasonsQty" class="form-label text-light mb-0">Number of seasons</label>
+                <label for="seasons_qty" class="form-label text-light mb-0">Number of seasons</label>
                 <input 
                     type="number" 
-                    id="seasonsQty" 
-                    name="seasonsQty" 
+                    id="seasons_qty" 
+                    name="seasons_qty" 
                     class="form-control bg-dark dark-input"
                     style="width: 60px"
-                    value="{{ $series->seasonsQty }}"
+                    value="{{ $series->seasons_qty }}"
                 >
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <label for="episodesPerSeason" class="form-label text-light mb-0">Episodes per season</label>
+                <label for="episodes_per_season" class="form-label text-light mb-0">Episodes per season</label>
                 <input 
                     type="number" 
-                    id="episodesPerSeason" 
-                    name="episodesPerSeason" 
+                    id="episodes_per_season" 
+                    name="episodes_per_season" 
                     class="form-control bg-dark dark-input"
                     style="width: 60px"
-                    value="{{ $series->episodesPerSeason }}"
+                    value="{{ $series->episodes_per_season }}"
                 >
             </div>
 

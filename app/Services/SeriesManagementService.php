@@ -80,7 +80,7 @@ class SeriesManagementService
 
     public function handleSeasonsAndEpisodes(Series $series, SeriesFormRequest $request)
     {
-        if ($series->seasonsQty !== (int) $request->input('seasonsQty')) {
+        if ($series->seasons_qty !== (int) $request->input('seasons_qty')) {
             $this->updateSeasonsQty($series, $request);
         }
         
@@ -91,9 +91,9 @@ class SeriesManagementService
 
     public function updateSeasonsQty(Series $series, SeriesFormRequest $request)
     {
-        if ($series->seasonsQty < $request->input('seasonsQty')) {
+        if ($series->seasons_qty < $request->input('seasons_qty')) {
             $this->seasonsRepository->increaseSeasons($series, $request);
-        } elseif ($series->seasonsQty > $request->input('seasonsQty')) {
+        } elseif ($series->seasons_qty > $request->input('seasons_qty')) {
             $this->seasonsRepository->decreaseSeasons($series, $request);
         } 
     }

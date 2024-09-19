@@ -12,12 +12,12 @@ class EloquentSeasonsRepository implements SeasonsRepository
 {
     public function increaseSeasons(Series $series, SeriesFormRequest $request)
     {
-        $newSeasonsQty = $request->input('seasonsQty');
+        $newSeasonsQty = $request->input('seasons_qty');
         $episodesPerSeason = $series->episodesPerSeason;
 
         return DB::transaction(function () use ($series, $newSeasonsQty, $episodesPerSeason) {
             $seasonsToAdd = [];
-            for ($i = $series->seasonsQty +1; $i <= $newSeasonsQty; $i++) { 
+            for ($i = $series->seasons_qty +1; $i <= $newSeasonsQty; $i++) { 
                 $seasonsToAdd[] = [
                     'series_id' => $series->id,
                     'number' => $i,
@@ -27,7 +27,7 @@ class EloquentSeasonsRepository implements SeasonsRepository
     
             // Gets last inserted seasons
             $newSeasons = Season::where('series_id', $series->id)
-                ->whereBetween('number', [$series->seasonsQty + 1, $newSeasonsQty])
+                ->whereBetween('number', [$series->seasons_qty + 1, $newSeasonsQty])
                 ->orderBy('number', 'asc')
                 ->get();
 
@@ -44,17 +44,17 @@ class EloquentSeasonsRepository implements SeasonsRepository
             Episode::insert($episodes);
 
             $series->update([
-                'seasonsQty' => $newSeasonsQty
+                'seasons_qty' => $newSeasonsQty
             ]);
         });
     }
 
     public function decreaseSeasons(Series $series, SeriesFormRequest $request)
     {
-        $newSeasonsQty = $request->input('seasonsQty');
-        
+        $newSeasonsQty = $request->input('seasons_qty');
+
         $seasonsToDelete = [];
-        for ($i = $series->seasonsQty; $i > $newSeasonsQty; $i--) { 
+        for ($i = $series->seasons_qty; $i > $newSeasonsQty; $i--) { 
             $seasonsToDelete[] = $i;
         }
         
@@ -63,7 +63,7 @@ class EloquentSeasonsRepository implements SeasonsRepository
             ->delete();
 
         $series->update([
-            'seasonsQty' => $newSeasonsQty
+            'seasons_qty' => $newSeasonsQty
         ]);
     }
 }

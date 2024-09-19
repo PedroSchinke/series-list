@@ -64,9 +64,9 @@ class SeasonObserver
 
     protected function updateSeasonsQty(Series $series)
     {
-        $seasonsQty = Season::where('series_id', $series->id)->count();
+        $seasons_qty = Season::where('series_id', $series->id)->count();
         $series->update([
-            'seasonsQty' => $seasonsQty
+            'seasons_qty' => $seasons_qty
         ]);
     }
 }

@@ -97,8 +97,8 @@ class SeriesController extends Controller
         EventSeriesCreated::dispatch(
             $series->name,
             $series->id,
-            $request->input('seasonsQty'),
-            $request->input('episodesPerSeason'),
+            $request->input('seasons_qty'),
+            $request->input('episodes_per_season'),
         );
 
         return redirect()->route('series.index')

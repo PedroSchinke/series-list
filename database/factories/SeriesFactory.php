@@ -24,10 +24,10 @@ class SeriesFactory extends Factory
         ];
     }
 
-    public function withSeasonsAndEpisodes($seasonsQty, $episodesPerSeason)
+    public function withSeasonsAndEpisodes($seasons_qty, $episodesPerSeason)
     {
-        return $this->afterCreating(function (Series $series) use ($seasonsQty, $episodesPerSeason) {
-            $seasons = Season::factory()->count($seasonsQty)->make();
+        return $this->afterCreating(function (Series $series) use ($seasons_qty, $episodesPerSeason) {
+            $seasons = Season::factory()->count($seasons_qty)->make();
             
             foreach ($seasons as $index => $season) {
                 $season->number = $index + 1; // Defines the season number

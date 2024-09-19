@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Series extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'cover', 'seasonsQty', 'episodesPerSeason', 'synopsis'];
+    protected $fillable = ['name', 'cover', 'seasons_qty', 'episodes_per_season', 'synopsis'];
     protected $with = ['seasons', 'categories']; // To not use lazy loading in seasons and categories
     protected $appends = ['links']; // Add links of getLinksAttribute() to JSON response
 

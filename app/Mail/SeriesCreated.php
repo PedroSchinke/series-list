@@ -12,7 +12,7 @@ class SeriesCreated extends Mailable
     use Queueable, SerializesModels;
     public string $seriesName;
     public int $seriesId;
-    public int $seasonsQty;
+    public int $seasons_qty;
     public int $episodesPerSeason;
 
     /**
@@ -20,11 +20,11 @@ class SeriesCreated extends Mailable
      *
      * @return void
      */
-    public function __construct(string $seriesName, int $seriesId, int $seasonsQty, int $episodesPerSeason)
+    public function __construct(string $seriesName, int $seriesId, int $seasons_qty, int $episodesPerSeason)
     {
         $this->seriesName = $seriesName;
         $this->seriesId = $seriesId;
-        $this->seasonsQty = $seasonsQty;
+        $this->seasons_qty = $seasons_qty;
         $this->episodesPerSeason = $episodesPerSeason;
         $this->subject = "Series $seriesName created successfully!";
     }

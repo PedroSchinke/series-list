@@ -2,7 +2,7 @@
 
 # {{ $seriesName }} created
 
-Series {{ $seriesName }} with {{ $seasonsQty }} seasons and {{ $episodesPerSeason }} episodes per season was created.
+Series {{ $seriesName }} with {{ $seasons_qty }} seasons and {{ $episodesPerSeason }} episodes per season was created.
 
 @component('mail::button', ['url' => route('seasons.index', $seriesId)])
     Watch series

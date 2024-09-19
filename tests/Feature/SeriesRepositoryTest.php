@@ -21,8 +21,8 @@ class SeriesRepositoryTest extends TestCase
         // $repository = $this->app->make(SeriesRepository::class);
         // $request = new SeriesFormRequest();
         // $request->name = 'New test series';
-        // $request->seasonsQty = 1;
-        // $request->episodesPerSeason = 1;
+        // $request->seasons_qty = 1;
+        // $request->episodes_per_season = 1;
 
         // // ACT
         // $repository->add($request);
