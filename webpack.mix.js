@@ -19,6 +19,7 @@ mix
     .js('resources/js/favorites-filter-button.js', 'public/js')
     .js('resources/js/add-to-favorites-button.js', 'public/js')
     .js('resources/js/seasons-select.js', 'public/js')
+    .js('resources/js/search-bar.js', 'public/js')
     .webpackConfig({
         plugins: [new LiveReloadPlugin()]
     })
