@@ -11,4 +11,5 @@ interface SeriesRepository
 {
     public function getAll(Request $request): LengthAwarePaginator;
     public function add(SeriesFormRequest $request): Series;
+    public function updateCategories(Series $series, SeriesFormRequest $request);
 }

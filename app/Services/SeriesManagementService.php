@@ -56,15 +56,12 @@ class SeriesManagementService
         DB::transaction(function () use ($series, $request) {
             $this->updateSeriesAttributes($series, $request);
             $this->handleSeasonsAndEpisodes($series, $request);
+            $this->seriesRepository->updateCategories($series, $request);
         });
     }
 
     public function updateSeriesAttributes(Series $series, SeriesFormRequest $request)
     {
-        $selectedCategories = $request->input('selected_categories', '');
-        $categoryIds = explode(',', $selectedCategories);
-        $series->categories()->sync($categoryIds);
-        
         if ($request->hasFile('cover')) {
             $cover = $request->file('cover')->store('series_cover', 'public');
             $request->merge(['coverPath' => 'storage/' . $cover]);

@@ -106,4 +106,11 @@ class EloquentSeriesRepository implements SeriesRepository
             return $series;
         });
     }
+
+    public function updateCategories(Series $series, SeriesFormRequest $request)
+    {
+        $selectedCategories = $request->input('selected_categories', '');
+        $categoryIds = explode(',', $selectedCategories);
+        $series->categories()->sync($categoryIds);
+    }
 }
