@@ -37,13 +37,13 @@ class EloquentEpisodesRepository implements EpisodesRepository
         });
     }
 
-    public function increaseEpisodes(Series $series, int $episodesPerSeason, int $newEpisodesPerSeason)
+    public function increaseEpisodes(Series $series, int $episodes_per_season, int $newEpisodesPerSeason)
     {
         $seasons = $series->seasons()->get();
 
         $episodes = [];
         foreach ($seasons as $season) {
-            for ($i = $episodesPerSeason + 1; $i <= $newEpisodesPerSeason; $i++) {
+            for ($i = $episodes_per_season + 1; $i <= $newEpisodesPerSeason; $i++) {
                 $episodes[] = [
                     'season_id' => $season->id,
                     'number' => $i,
@@ -53,14 +53,14 @@ class EloquentEpisodesRepository implements EpisodesRepository
         Episode::insert($episodes);
 
         $series->update([
-            'episodesPerSeason' => $newEpisodesPerSeason
+            'episodes_per_season' => $newEpisodesPerSeason
         ]);
     }
 
-    public function decreaseEpisodes(Series $series, int $episodesPerSeason, int $newEpisodesPerSeason)
+    public function decreaseEpisodes(Series $series, int $episodes_per_season, int $newEpisodesPerSeason)
     {
         $episodesToDelete = [];
-        for ($i = $episodesPerSeason; $i > $newEpisodesPerSeason; $i--) { 
+        for ($i = $episodes_per_season; $i > $newEpisodesPerSeason; $i--) { 
             $episodesToDelete[] = $i;
         }
 
@@ -71,7 +71,7 @@ class EloquentEpisodesRepository implements EpisodesRepository
             ->delete();
 
         $series->update([
-            'episodesPerSeason' => $newEpisodesPerSeason
+            'episodes_per_season' => $newEpisodesPerSeason
         ]);
     }
 }

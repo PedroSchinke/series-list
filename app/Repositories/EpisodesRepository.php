@@ -10,6 +10,6 @@ interface EpisodesRepository
 {
     public function get(Season $season);
     public function update(Request $request, int $seasonId);
-    public function increaseEpisodes(Series $series, int $episodesPerSeason, int $newEpisodesPerSeason);
-    public function decreaseEpisodes(Series $series, int $episodesPerSeason, int $newEpisodesPerSeason);
+    public function increaseEpisodes(Series $series, int $episodes_per_season, int $newEpisodesPerSeason);
+    public function decreaseEpisodes(Series $series, int $episodes_per_season, int $newEpisodesPerSeason);
 }

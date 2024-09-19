@@ -36,11 +36,11 @@ class SeriesRepositoryTest extends TestCase
         // ARRANGE => States the series attributes values
         $seriesName = 'New test series';
         $seasonsCount = 5;
-        $episodesPerSeason = 4;
+        $episodes_per_season = 4;
 
         // ACT => Creates a series with the specified values
         Series::factory()
-            ->withSeasonsAndEpisodes($seasonsCount, $episodesPerSeason)
+            ->withSeasonsAndEpisodes($seasonsCount, $episodes_per_season)
             ->create([
                 'name' => $seriesName,
             ]);

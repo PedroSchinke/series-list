@@ -63,7 +63,7 @@ class EloquentSeriesRepository implements SeriesRepository
                 'name' => $request->input('name'),
                 'cover' => $request->coverPath,
                 'seasons_qty' => (int) $request->input('seasons_qty'),
-                'episodesPerSeason' => (int) $request->input('episodesPerSeason')
+                'episodes_per_season' => (int) $request->input('episodes_per_season')
             ]);
 
             /**
@@ -90,7 +90,7 @@ class EloquentSeriesRepository implements SeriesRepository
 
             $episodes = [];
             foreach ($series->seasons as $season) {
-                for ($j = 1; $j <= $request->input('episodesPerSeason'); $j++) {
+                for ($j = 1; $j <= $request->input('episodes_per_season'); $j++) {
                     $episodes[] = [
                         'season_id' => $season->id,
                         'number' => $j,

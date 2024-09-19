@@ -66,8 +66,8 @@ class EpisodeObserver
     {
         $seasonCount = $series->seasons()->count();
         if ($seasonCount > 0) {
-            $episodesPerSeason = $series->episodes()->count() / $seasonCount;
-            $series->episodesPerSeason = (int) $episodesPerSeason;
+            $episodes_per_season = $series->episodes()->count() / $seasonCount;
+            $series->episodes_per_season = (int) $episodes_per_season;
             $series->save();
         }
     }

@@ -13,9 +13,9 @@ class EloquentSeasonsRepository implements SeasonsRepository
     public function increaseSeasons(Series $series, SeriesFormRequest $request)
     {
         $newSeasonsQty = $request->input('seasons_qty');
-        $episodesPerSeason = $series->episodesPerSeason;
+        $episodes_per_season = $series->episodes_per_season;
 
-        return DB::transaction(function () use ($series, $newSeasonsQty, $episodesPerSeason) {
+        return DB::transaction(function () use ($series, $newSeasonsQty, $episodes_per_season) {
             $seasonsToAdd = [];
             for ($i = $series->seasons_qty +1; $i <= $newSeasonsQty; $i++) { 
                 $seasonsToAdd[] = [
@@ -34,7 +34,7 @@ class EloquentSeasonsRepository implements SeasonsRepository
             // Inserts episodes in last inserted seasons
             $episodes = [];
             foreach ($newSeasons as $season) {
-                for ($j = 1; $j <= $episodesPerSeason; $j++) {
+                for ($j = 1; $j <= $episodes_per_season; $j++) {
                     $episodes[] = [
                         'season_id' => $season->id,
                         'number' => $j,

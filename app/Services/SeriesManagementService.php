@@ -84,8 +84,8 @@ class SeriesManagementService
             $this->updateSeasonsQty($series, $request);
         }
         
-        if ($series->episodesPerSeason !== (int) $request->input('episodesPerSeason')) {
-            $this->updateEpisodesPerSeason($series, $series->episodesPerSeason, $request->input('episodesPerSeason'));
+        if ($series->episodes_per_season !== (int) $request->input('episodes_per_season')) {
+            $this->updateEpisodesPerSeason($series, $series->episodes_per_season, $request->input('episodes_per_season'));
         }
     }
 
@@ -98,18 +98,18 @@ class SeriesManagementService
         } 
     }
 
-    public function updateEpisodesPerSeason(Series $series, int $episodesPerSeason, int $newEpisodesPerSeason)
+    public function updateEpisodesPerSeason(Series $series, int $episodes_per_season, int $newEpisodesPerSeason)
     {
-        if ($episodesPerSeason < $newEpisodesPerSeason) {
+        if ($episodes_per_season < $newEpisodesPerSeason) {
             $this->episodesRepository->increaseEpisodes(
                 $series, 
-                $episodesPerSeason, 
+                $episodes_per_season, 
                 $newEpisodesPerSeason
             );
-        } elseif ($episodesPerSeason > $newEpisodesPerSeason) {
+        } elseif ($episodes_per_season > $newEpisodesPerSeason) {
             $this->episodesRepository->decreaseEpisodes(
                 $series, 
-                $episodesPerSeason, 
+                $episodes_per_season, 
                 $newEpisodesPerSeason
             );
         }
