@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Repositories\UsersRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
+    private UsersRepository $repository;
+
+    public function __construct(UsersRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function create()
     {
         return view('users.create');
@@ -25,19 +33,10 @@ class UsersController extends Controller
         return redirect()->route('series.index');
     }
 
-    public function favoriteSeries($seriesId)
+    public function favoriteSeries(int $seriesId)
     {
-        /**
-         * @var \App\Models\User &user
-         */
-        $user = Auth::user();
-        
-        if ($user->favoriteSeries()->where('series_id', $seriesId)->exists()) {
-            $user->favoriteSeries()->detach($seriesId);
-            return response()->json(['favorite' => false]);
-        } else {
-            $user->favoriteSeries()->attach($seriesId);
-            return response()->json(['favorite' => true]);
-        }
+        $response = $this->repository->favoriteSeries($seriesId);
+
+        return $response;
     }
 }

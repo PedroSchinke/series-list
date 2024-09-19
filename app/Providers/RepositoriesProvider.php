@@ -7,9 +7,11 @@ use App\Repositories\EloquentCategoriesRepository;
 use App\Repositories\EloquentEpisodesRepository;
 use App\Repositories\EloquentSeasonsRepository;
 use App\Repositories\EloquentSeriesRepository;
+use App\Repositories\EloquentUsersRepository;
 use App\Repositories\EpisodesRepository;
 use App\Repositories\SeasonsRepository;
 use App\Repositories\SeriesRepository;
+use App\Repositories\UsersRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoriesProvider extends ServiceProvider
@@ -18,7 +20,8 @@ class RepositoriesProvider extends ServiceProvider
         SeriesRepository::class => EloquentSeriesRepository::class,
         SeasonsRepository::class => EloquentSeasonsRepository::class,
         EpisodesRepository::class => EloquentEpisodesRepository::class,
-        CategoriesRepository::class => EloquentCategoriesRepository::class
+        CategoriesRepository::class => EloquentCategoriesRepository::class,
+        UsersRepository::class => EloquentUsersRepository::class
     ];
 
     /**
