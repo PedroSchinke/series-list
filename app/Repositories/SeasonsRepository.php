@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\SeriesFormRequest;
 use App\Models\Series;
 
 interface SeasonsRepository
 {
-    public function increaseSeasons(Series $series, int $newSeasonsQty, int $episodesPerSeason);
-    public function decreaseSeasons(Series $series, int $seasonsQty, int $newSeasonsQty);
+    public function increaseSeasons(Series $series, SeriesFormRequest $request);
+    public function decreaseSeasons(Series $series, SeriesFormRequest $request);
 }

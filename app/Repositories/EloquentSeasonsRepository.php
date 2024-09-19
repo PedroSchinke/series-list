@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\SeriesFormRequest;
 use App\Models\Episode;
 use App\Models\Season;
 use App\Models\Series;
@@ -9,8 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class EloquentSeasonsRepository implements SeasonsRepository
 {
-    public function increaseSeasons(Series $series, int $newSeasonsQty, int $episodesPerSeason)
+    public function increaseSeasons(Series $series, SeriesFormRequest $request)
     {
+        $newSeasonsQty = $request->input('seasonsQty');
+        $episodesPerSeason = $series->episodesPerSeason;
+
         return DB::transaction(function () use ($series, $newSeasonsQty, $episodesPerSeason) {
             $seasonsToAdd = [];
             for ($i = $series->seasonsQty +1; $i <= $newSeasonsQty; $i++) { 
@@ -45,10 +49,12 @@ class EloquentSeasonsRepository implements SeasonsRepository
         });
     }
 
-    public function decreaseSeasons(Series $series, int $seasonsQty, int $newSeasonsQty)
+    public function decreaseSeasons(Series $series, SeriesFormRequest $request)
     {
+        $newSeasonsQty = $request->input('seasonsQty');
+        
         $seasonsToDelete = [];
-        for ($i = $seasonsQty; $i > $newSeasonsQty; $i--) { 
+        for ($i = $series->seasonsQty; $i > $newSeasonsQty; $i--) { 
             $seasonsToDelete[] = $i;
         }
         
