@@ -39,4 +39,11 @@ class UsersController extends Controller
 
         return $response;
     }
+
+    public function rateSeries(int $seriesId, Request $request)
+    {
+        $response = $this->repository->rateSeries($seriesId, $request);
+
+        return $response;
+    }
 }

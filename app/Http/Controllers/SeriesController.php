@@ -7,6 +7,7 @@ use App\Http\Requests\SeriesFormRequest;
 use App\Models\Series;
 use App\Repositories\CategoriesRepository;
 use App\Repositories\SeriesRepository;
+use App\Repositories\UsersRepository;
 use App\Services\SeriesManagementService;
 use Illuminate\Http\Request;
 
@@ -14,17 +15,23 @@ class SeriesController extends Controller
 {
     private SeriesRepository $repository;
     private CategoriesRepository $categoriesRepository;
+    private UsersRepository $usersRepository;
     private SeriesManagementService $seriesService;
 
-    public function __construct(SeriesRepository $repository, CategoriesRepository $categoriesRepository, SeriesManagementService $seriesService)
-    {
+    public function __construct(
+        SeriesRepository $repository,
+        CategoriesRepository $categoriesRepository,
+        UsersRepository $usersRepository,
+        SeriesManagementService $seriesService
+    ) {
         $this->repository = $repository;
         $this->categoriesRepository = $categoriesRepository;
+        $this->usersRepository = $usersRepository;
         $this->seriesService = $seriesService;
         $this->middleware('auth');
     }
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         $series = $this->seriesService->getAllSeriesWithPagesData($request);
 
@@ -54,10 +61,10 @@ class SeriesController extends Controller
         // OR => return view('series-list')->with('series', $series);
     }
 
-    public function show(Series $series, Request $request) 
+    public function show(Series $series, Request $request)
     {
         $seasonNumber = $request->input('season');
-    
+
         if ($request->ajax()) {
             $season = $series->seasons()->where('number', $seasonNumber)->first();
             if ($season) {
@@ -69,15 +76,17 @@ class SeriesController extends Controller
         }
 
         $seasons = $series->seasons()->with('episodes')->get();
-        // OR => $seasons = Season::query()->with('episodes')->where('series_id', $series)->get(); 
+        // OR => $seasons = Season::query()->with('episodes')->where('series_id', $series)->get();
         // NEEDS to receive int $series as a parameter
 
         $season = $series->seasons()->where('number', 1)->first();
         $episodes = $season->episodes;
-        
+
+        $rating = $this->usersRepository->getSeriesRating($series->id);
+
         $successMessage = $request->session()->get('message.success');
 
-        return view('series.show', compact('seasons', 'series', 'successMessage', 'episodes'));
+        return view('series.show', compact('seasons', 'series', 'successMessage', 'episodes', 'rating'));
     }
 
     public function create()

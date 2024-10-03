@@ -17,6 +17,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Series::class, 'favorites');
     }
 
+    public function ratings()
+    {
+        return $this->belongsToMany(Series::class, 'series_user_ratings')->withPivot('rating');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

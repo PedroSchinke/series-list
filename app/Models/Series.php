@@ -33,6 +33,18 @@ class Series extends Model
         return $this->belongsToMany(User::class, 'favorites');
     }
 
+    public function ratings()
+    {
+        return $this->belongsToMany(User::class, 'series_user_ratings');
+    }
+
+    public function averageRating()
+    {
+        $average = $this->ratings()->avg('rating');
+
+        return number_format((float)$average, 1, '.', '');
+    }
+
     /**
      * Global scope
      * -> returns array sorted in ascending alphabetical order
@@ -53,7 +65,7 @@ class Series extends Model
     // }
 
     // Laravel ^9
-    // public function links(): Attribute 
+    // public function links(): Attribute
     // {
     //     return new Atributte(
     //         get: fn () => [

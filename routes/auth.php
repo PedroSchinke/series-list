@@ -69,7 +69,6 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
 
-    
     Route::get('/', function () {
         return redirect('/series');
     })->middleware(Authenticator::class);
@@ -120,4 +119,7 @@ Route::middleware('auth')->group(function () {
      */
     Route::post('/user/favorite-series/{series}', [UsersController::class, 'favoriteSeries'])
         ->name('user.favoriteSeries');
+
+    Route::post('/user/rate-series/{series}', [UsersController::class, 'rateSeries'])
+        ->name('user.rateSeries');
 });
